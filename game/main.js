@@ -8,7 +8,7 @@ window.onload = function () {
     game.state.add('gameover', GameOver);
     game.state.add('lander', Lander);
     game.state.add('stats', Stats);
-    
+
     game.Game = new Game(game);
     game.audioManager = AudioManager(game);
     var resizeGame = function() {
@@ -18,5 +18,9 @@ window.onload = function () {
     window.addEventListener('resize', function(event){
         resizeGame();
     });
+
+    // var stats = new Stats(this.game);
+    // stats.init();
     game.state.start('lander');
+    game.Game.new();
 };

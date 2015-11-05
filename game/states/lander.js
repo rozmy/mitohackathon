@@ -64,9 +64,6 @@ Lander.prototype = {
 
     	this.game.camera.follow(this.ship);
 
-    	var caption = this.game.add.text(5, 5, 'Arrows to move!', { fill: '#ffffff', font: '14pt Arial' });
-    	caption.fixedToCamera = true;
-
         var graphics = this.game.add.graphics(0, 200);
         var mask = this.game.add.graphics(0, 200);
 

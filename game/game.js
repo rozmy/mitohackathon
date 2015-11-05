@@ -15,7 +15,7 @@ Game.prototype.reset = function() {
 
     // Modifiers
     this.moneyAmount = 1;
-    
+
     // Others
     this.researchControl = new ResearchMissionControl();
 }
@@ -23,6 +23,12 @@ Game.prototype.reset = function() {
 Game.prototype.new = function () {
     // Reset the basic resources
     this.reset();
+
+    this.stats = new Stats(this.game); // TMP test stats
+    setTimeout((function(){
+        this.stats.init();
+        this.updateResources();
+    }).bind(this),0); // wait for game to initialize
 
     // Set the timer to calculate resources
     this.timer = this.game.time.events.loop(1000, this.updateResources, this);
@@ -77,7 +83,7 @@ Game.prototype.updateResources = function() {
     this.OXYGEN -= this.POPULATION;
     this.WATER -= this.POPULATION;
     this.FOOD -= this.POPULATION;
-    
+
     // Other resource consuption
     this.MONEY += this.moneyAmount;
 
@@ -94,13 +100,14 @@ Game.prototype.updateResources = function() {
         if ('e' in rb) { this.ELECTRICITY += nb*rb.e }
     }
 
+<<<<<<< f086aadac8d89b6ba8d4b293dd53279abf97a182
     // Pay incompleted researches
     for (var i = 0; i<this.researchControl.researches.length; i++) {
         var r = this.researchControl.researches[i];
-        
+
         if (r.status != IN_PROGRESS) continue;
         if (this.MONEY == 0) break;
-        
+
         // Pay for the research
         r.paid++;
         this.MONEY--;
@@ -109,6 +116,9 @@ Game.prototype.updateResources = function() {
         if (r.paid == r.getPrice()) r.finish();
     }
 
+=======
+    this.stats.update();
+>>>>>>> html stats
     // Detect game over
     if (this.isGameOver()) this.leave();
 };
