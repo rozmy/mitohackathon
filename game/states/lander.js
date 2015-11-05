@@ -34,12 +34,12 @@ Lander.prototype = {
         5050.86,24.3401,5078.48,41.8191,5498.61,41.7032];
     },
     preload: function () {
-        this.game.load.tilemap('map', 'assets/tilemaps/maps/collision_test.json', null, Phaser.Tilemap.TILED_JSON);
-        this.game.load.image('ground_1x1', 'assets/tilemaps/tiles/ground_1x1.png');
-        this.game.load.image('walls_1x2', 'assets/tilemaps/tiles/walls_1x2.png');
-        this.game.load.image('tiles2', 'assets/tilemaps/tiles/tiles2.png');
-        this.game.load.image('ship', 'assets/sprites/ship01.png');
-        this.game.load.image('pattern', 'assets/patterns/pattern1.png');
+        this.game.load.tilemap('map', '../assets/tilemaps/maps/collision_test.json', null, Phaser.Tilemap.TILED_JSON);
+        this.game.load.image('ground_1x1', '../assets/tilemaps/tiles/ground_1x1.png');
+        this.game.load.image('walls_1x2', '../assets/tilemaps/tiles/walls_1x2.png');
+        this.game.load.image('tiles2', '../assets/tilemaps/tiles/tiles2.png');
+        this.game.load.image('ship', '../assets/sprites/ship01.png');
+        this.game.load.image('pattern', '../assets/patterns/pattern1.png');
     },
     create: function () {
     	this.game.world.setBounds(-10000, -10000, 20000, 20000);
