@@ -2,7 +2,6 @@
 
 var Game = function (game) {
     this.game = game;
-    this.researchControl = new ResearchMissionControl();
 };
 
 Game.prototype.reset = function() {
@@ -16,14 +15,17 @@ Game.prototype.reset = function() {
 
     // Modifiers
     this.moneyAmount = 1;
-
-    // Deployed facilities and researches
-    this.researched = [];
+    
+    // Others
+    this.researchControl = new ResearchMissionControl();
 }
 
 Game.prototype.new = function () {
     // Reset the basic resources
     this.reset();
+
+    // var stats = new Stats(this.game);
+    // setTimeout(function(){stats.init();},0); // wait for game to initialize
 
     // Set the timer to calculate resources
     this.timer = this.game.time.events.loop(1000, this.updateResources, this);
@@ -52,7 +54,7 @@ Game.prototype.collect = function() {
 };
 
 Game.prototype.updateResources = function() {
-    // Basic resource consuption 
+    // Basic resource consuption
     this.OXYGEN -= this.POPULATION;
     this.WATER -= this.POPULATION;
     this.FOOD -= this.POPULATION;
