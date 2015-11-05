@@ -24,6 +24,8 @@ Game.prototype.new = function () {
     // Reset the basic resources
     this.reset();
 
+    var stats = new Stats(this.game);
+    setTimeout(function(){stats.init();},0); // wait for game to initialize
     // Set the timer to calculate resources
     this.timer = this.game.time.events.loop(1000, this.updateResources, this);
 };
@@ -33,7 +35,7 @@ Game.prototype.collect = function() {
 };
 
 Game.prototype.updateResources = function() {
-    // Basic resource consuption 
+    // Basic resource consuption
     this.OXYGEN -= this.POPULATION;
     this.WATER -= this.POPULATION;
     this.FOOD -= this.POPULATION;

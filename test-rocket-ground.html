@@ -83,31 +83,6 @@ function create() {
 	var groundBody = new Phaser.Physics.Box2D.Body(this.game, null, 0, 0, 0);
 	groundBody.setChain(groundVertices);
 
-	var PTM = 50;
-
-	// // Make the truck body
-	// truckBody = new Phaser.Physics.Box2D.Body(this.game, null, 0, -1*PTM);
-	// truckBody.setPolygon(truckVertices);
-    //
-    //
-	// // Make the wheel bodies
-	// var wheelBodies = [];
-	// wheelBodies[0] = new Phaser.Physics.Box2D.Body(this.game, null, -0.82*PTM, 0.6*-PTM);
-	// wheelBodies[1] = new Phaser.Physics.Box2D.Body(this.game, null,  1.05*PTM, 0.6*-PTM);
-	// wheelBodies[0].setCircle(0.3*PTM);
-	// wheelBodies[1].setCircle(0.3*PTM);
-    //
-	// var frequency = 3.5;
-	// var damping = 0.5;
-	// var motorTorque = 2;
-	// var rideHeight = 0.5;
-    //
-	// // Make wheel joints
-	// // bodyA, bodyB, ax, ay, bx, by, axisX, axisY, frequency, damping, motorSpeed, motorTorque, motorEnabled
-	// driveJoints[0] = game.physics.box2d.wheelJoint(truckBody, wheelBodies[0], -0.82*PTM,rideHeight*PTM, 0,0, 0,1, frequency, damping, 0, motorTorque, true ); // rear
-	// driveJoints[1] = game.physics.box2d.wheelJoint(truckBody, wheelBodies[1],  1.05*PTM,rideHeight*PTM, 0,0, 0,1, frequency, damping, 0, motorTorque, true ); // front
-
-
     ship = game.add.sprite(200, -200, 'ship');
     game.physics.box2d.enable(ship);
     ship.body.setRectangle(28,28,0,0);
