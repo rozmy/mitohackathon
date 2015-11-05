@@ -5,8 +5,8 @@ function Lander() {
 
 Lander.prototype = {
     init: function () {
-        this.groundVertices = [-200,-0,-130.128,5.08323,-89.0526,-0.105309,-31.5464,1.19183,1.31426,5.5156,
-        50.6053,4.21846,87.7897,-2.26719,148.755,-4.42908,200,-0,251.899,4.99306,
+        this.groundVertices = [0,0,-1.128,5.08323,40.31426,0,
+        50.6053,0,87.7897,0,148.755,0,200,0,251.899,4.99306,
         289.063,13.0285,335.267,18.0508,369.418,9.01079,383.48,14.033,410.6,3.9886,
         433.702,2.98414,467.853,10.0152,487.942,20.0596,512.048,23.073,545.195,8.00633,
         571.31,1.97973,591.399,-16.1001,623.541,-24.1356,647.647,-20.1179,678.785,-22.1268,
@@ -32,6 +32,8 @@ Lander.prototype = {
         4674.48,29.5702,4713.99,14.847,4760.58,14.6627,4803.11,38.8688,4819.84,15.0291,
         4858.19,-1.45256,4896.91,5.9419,4925.06,31.9846,4960.49,17.0905,5006.14,15.8518,
         5050.86,24.3401,5078.48,41.8191,5498.61,41.7032];
+
+        this.game.LanderState = this;
     },
     preload: function () {
         this.game.load.tilemap('map', '../assets/tilemaps/maps/collision_test.json', null, Phaser.Tilemap.TILED_JSON);
@@ -40,6 +42,7 @@ Lander.prototype = {
         this.game.load.image('tiles2', '../assets/tilemaps/tiles/tiles2.png');
         this.game.load.image('ship', '../assets/sprites/ship01.png');
         this.game.load.image('pattern', '../assets/patterns/pattern1.png');
+        this.game.load.image('base', '../assets/sprites/base.png');
     },
     changeWind: function() {
         var wind_diff = [-1,1][Math.round(Math.random())] * Math.round(Math.random()*5),
@@ -50,12 +53,12 @@ Lander.prototype = {
         this.game.physics.box2d.gravity.x = wind;
     },
     create: function () {
-        this.game.world.setBounds(-10000, -10000, 20000, 20000);
+        this.game.world.setBounds(0, -10000, 20000, 20000);
         this.game.stage.backgroundColor = '#FAFAE6';
 
         // Enable Box2D physics
         this.game.physics.startSystem(Phaser.Physics.BOX2D);
-        
+
         // Set up wind calculation and change
         var wind = [-1,1][Math.round(Math.random())] * Math.round(Math.random()*5);
         this.game.physics.box2d.gravity.x = wind;
@@ -69,7 +72,12 @@ Lander.prototype = {
         var groundBody = new Phaser.Physics.Box2D.Body(this.game, null, 0, 200, 0);
         groundBody.setChain(this.groundVertices);
 
-        this.cursors = this.game.input.keyboard.createCursorKeys();
+        // base
+        var base = this.game.add.sprite(100, 190, 'base');
+        this.game.physics.box2d.enable(base);
+        base.body.setRectangle(128,119,0,0);
+
+    	this.cursors = this.game.input.keyboard.createCursorKeys();
 
         var graphics = this.game.add.graphics(0, 200);
         var mask = this.game.add.graphics(0, 200);

@@ -31,27 +31,30 @@ Game.prototype.new = function () {
 Game.prototype.startResearch = function(id) {
     // Get the Research object
     var obj = this.researchControl.getResearch(id);
-    if (!obj.isBuildable()) return;
+    if (!obj.isBuildable()) return false;
 
     console.log('Start `' + id + '` research.')
     this.researchControl.start(obj);
+    return true;
 };
 
 Game.prototype.stopResearch = function(id) {
     var obj = this.researchControl.getResearch(id);
-    if (!obj.isInProgress()) return;
+    if (!obj.isInProgress()) return false;
 
     console.log('Stop `' + id + '` research, `' + obj.paid +'` was paid back.')
     this.MONEY += obj.paid;
     this.researchControl.stop(obj);
+    return true;
 };
 
 Game.prototype.launchResearch = function(id) {
     var obj = this.researchControl.getResearch(id);
-    if (!obj.isLaunchable()) return;
+    if (!obj.isLaunchable()) return false;
 
     console.log('Launch `' + id + '` research, `, another research is available.')
     this.researchControl.launch(obj);
+    return true;
 };
 
 Game.prototype.deployResearch = function(id) {
@@ -106,7 +109,10 @@ Game.prototype.updateResources = function() {
         this.MONEY--;
 
         // Make it launchable.
-        if (r.paid == r.getPrice()) r.finish();
+        if (r.paid == r.getPrice()) {
+            console.log('Finished `' + r.base.id + '` research.')
+            r.finish();
+        }
     }
 
     this.game.stats.update();
