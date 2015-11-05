@@ -15,6 +15,7 @@
 
         <link href='https://fonts.googleapis.com/css?family=Abril+Fatface' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="../style.css">
+        <link rel="stylesheet" href="../icons.css">
 
     </head>
     <body>
@@ -23,20 +24,20 @@
                 <h1>Logo</h1>
             </div>
             <div class="status">
-                <p><span class="icon-money">money</span> <span class="moneyAmount"></span></p>
-                <p><span class="icon-oxygen">oxygen</span> <span class="oxygenAmount"></span></p>
-                <p><span class="icon-water">water</span> <span class="waterAmount"></span></p>
-                <p><span class="icon-food">food</span> <span class="foodAmount"></span></p>
-                <p><span class="icon-electricity">electricity</span> <span class="electricityAmount"></span></p>
+                <p><span class="icon icon-menu-money"></span> <span class="tooltip">money</span> <span class="moneyAmount"></span></p>
+                <p><span class="icon icon-menu-oxygen"></span> <span class="tooltip">oxygen</span> <span class="oxygenAmount"></span></p>
+                <p><span class="icon icon-menu-water"></span> <span class="tooltip">water</span> <span class="waterAmount"></span></p>
+                <p><span class="icon icon-menu-food"></span> <span class="tooltip">food</span> <span class="foodAmount"></span></p>
+                <p><span class="icon icon-menu-power"></span> <span class="tooltip">power</span> <span class="electricityAmount"></span></p>
 
-                <p>stuff: <span class="stuffAmount"></span></p>
+                <p class="stuffContainer">stuff: <span class="stuffAmount"></span></p>
                 <button class="collectMoneyButton">collect money</button>
             </div>
-            <button class="active viewSwitch">Planet view</button>
-            <button class="viewSwitch">Tech tree</button>
+            <button class="active viewSwitch"><span>Planet view</span></button>
+            <button class="viewSwitch"><span>Tech tree</span></button>
             <div class="settings">
-                <button>Pause</button>
-                <button>mute</button>
+                <button><span class="icon icon-menu-pause"></span> Pause</button>
+                <button><span class="icon icon-menu-volume-off"></span> mute</button>
             </div>
         </div>
 

@@ -28,7 +28,7 @@
 
 /* LAYOUT */
 
-html, body {
+html, body, div, p {
     margin: 0;
     padding: 0;
 }
@@ -54,7 +54,9 @@ html, body {
 }
 
 
-.techTree {
+.techTree,
+.collectMoneyButton,
+.stuffContainer {
     display: none; /* TMP */
 }
 
@@ -67,7 +69,8 @@ input, button {
     text-align: left;
 }
 
-.controlPanel {
+.controlPanel,
+.controlPanel button {
     color: white;
 }
 
@@ -91,10 +94,63 @@ input, button {
     text-align: center;
 }
 
+.status {
+    padding: 20px 0;
+}
+
+.status p {
+    padding: 5px 20px;
+}
+
 .moneyAmount {
-    font: 100px/1 'Abril Fatface', serif;
+    font: 80px/1 'Abril Fatface', serif;
+}
+
+.tooltip {
+    display: none;
 }
 
 .viewSwitch {
+    font: 30px/1 'Abril Fatface', serif;
     background: transparent;
+    border: none;
+    border-right: 15px solid #000cff;
+    padding: 20px;
+    position: relative;
+    color: white;
+}
+
+.viewSwitch:before {
+    content: '';
+    width: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #000cff;
+}
+
+.viewSwitch span {
+    position: relative;
+}
+
+.viewSwitch.active {
+    color: #373d37;
+}
+.viewSwitch.active:before {
+    width: 0;
+}
+
+.settings {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+
+.settings button {
+    background: transparent;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
 }
