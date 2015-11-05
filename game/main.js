@@ -6,6 +6,7 @@ window.onload = function () {
 
     // Game States
     game.state.add('play', Play);
+    game.state.add('gameover', GameOver);
 
     game.Game = new Game(game);
     game.audioManager = AudioManager(game);
