@@ -71,6 +71,7 @@ Lander.prototype = {
         // Make the ground body
         this.groundBody = new Phaser.Physics.Box2D.Body(this.game, null, 0, 200, 0);
         this.groundBody.setChain(this.groundVertices);
+        this.groundBody.setCollisionCategory(2); // this is a bitmask, whatever that means
 
         // base
         this.base = this.game.add.sprite(100, 190, 'base');
@@ -116,8 +117,8 @@ Lander.prototype = {
         this.ship.body.angularVelocity = 1.2;
         this.game.camera.follow(this.ship);
 
-        // this.ship.body.setBodyContactCallback(this.groundBody, this.onDeployed, this);
-        this.ship.body.setBodyContactCallback(this.base, this.onDeployed, this);
+        this.ship.body.setCategoryContactCallback(2, this.onDeployed, this);
+        this.ship.body.setBodyContactCallback(this.base, this.onDestroyBase, this);
         for (var i=0; i<this.facilities.length; i++)
             this.ship.body.setBodyContactCallback(this.facilities[i], this.onDestroyFacility, this);
 
@@ -131,7 +132,7 @@ Lander.prototype = {
             this.ship = null;
             return;
         }
-        
+
         // TODO: Destroy if it arrives too fast.
 
         // TODO: Make it unmoveable after stops. These solutions aren't working.
@@ -151,7 +152,7 @@ Lander.prototype = {
         if (!this.hasShip()) return;
         this.ship.destroy();
         this.ship = null;
-        
+
         // TODO: Destroy body2 too.
     },
     hasShip: function() {
@@ -171,7 +172,7 @@ Lander.prototype = {
             this.ship.body.setZeroRotation();
         }
 
-        if (this.cursors.up.isDown) 
+        if (this.cursors.up.isDown)
             this.ship.body.thrust(300);
     },
     render: function () {

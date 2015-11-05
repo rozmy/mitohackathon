@@ -56,10 +56,10 @@ html, body, div, p {
 }
 
 
-.techTree,
+
 .collectMoneyButton,
 .stuffContainer {
-    display: none; /* TMP */
+    display: none; TMP
 }
 
 
