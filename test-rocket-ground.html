@@ -110,13 +110,14 @@ function create() {
 
     ship = game.add.sprite(200, -200, 'ship');
     game.physics.box2d.enable(ship);
-    ship.body.setCircle(14);
+    ship.body.setRectangle(28,28,0,0);
+    ship.body.restitution = 0.2;
 
 	cursors = game.input.keyboard.createCursorKeys();
 
 	game.camera.follow(ship);
 
-	var caption = game.add.text(5, 5, 'Simple car control. Left/right arrow keys to move, down arrow key to brake.', { fill: '#ffffff', font: '14pt Arial' });
+	var caption = game.add.text(5, 5, 'Arrows to move!', { fill: '#ffffff', font: '14pt Arial' });
 	caption.fixedToCamera = true;
 
 
