@@ -31,19 +31,20 @@ Lander.prototype = {
         4167.77,-36.1386,4262.75,-9.0016,4372.57,29.6882,4504.22,43.4773,4649.69,49.6867,
         4674.48,29.5702,4713.99,14.847,4760.58,14.6627,4803.11,38.8688,4819.84,15.0291,
         4858.19,-1.45256,4896.91,5.9419,4925.06,31.9846,4960.49,17.0905,5006.14,15.8518,
-        5050.86,24.3401,5078.48,41.8191,5498.61,41.7032,5499.5,-306.024];
+        5050.86,24.3401,5078.48,41.8191,5498.61,41.7032];
     },
     preload: function () {
         this.game.load.tilemap('map', 'assets/tilemaps/maps/collision_test.json', null, Phaser.Tilemap.TILED_JSON);
         this.game.load.image('ground_1x1', 'assets/tilemaps/tiles/ground_1x1.png');
         this.game.load.image('walls_1x2', 'assets/tilemaps/tiles/walls_1x2.png');
         this.game.load.image('tiles2', 'assets/tilemaps/tiles/tiles2.png');
-        this.game.load.image('ship', 'assets/sprites/thrust_ship2.png');
+        this.game.load.image('ship', 'assets/sprites/ship01.png');
+        this.game.load.image('pattern', 'assets/patterns/pattern1.png');
     },
     create: function () {
     	this.game.world.setBounds(-10000, -10000, 20000, 20000);
 
-    	this.game.stage.backgroundColor = '#124184';
+    	this.game.stage.backgroundColor = '#FAFAE6';
 
     	// Enable Box2D physics
     	this.game.physics.startSystem(Phaser.Physics.BOX2D);
@@ -51,12 +52,12 @@ Lander.prototype = {
     	this.game.physics.box2d.friction = 0.8;
 
     	// Make the ground body
-    	var groundBody = new Phaser.Physics.Box2D.Body(this.game, null, 0, 0, 0);
+    	var groundBody = new Phaser.Physics.Box2D.Body(this.game, null, 0, 200, 0);
     	groundBody.setChain(this.groundVertices);
 
         this.ship = this.game.add.sprite(200, -200, 'ship');
         this.game.physics.box2d.enable(this.ship);
-        this.ship.body.setRectangle(28,28,0,0);
+        this.ship.body.setRectangle(81,84,0,0);
         this.ship.body.restitution = 0.2;
 
     	this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -65,6 +66,27 @@ Lander.prototype = {
 
     	var caption = this.game.add.text(5, 5, 'Arrows to move!', { fill: '#ffffff', font: '14pt Arial' });
     	caption.fixedToCamera = true;
+
+        var graphics = this.game.add.graphics(0, 200);
+        var mask = this.game.add.graphics(0, 200);
+
+        // set a fill and line style
+        // graphics.beginFill(0x000CFF);
+        graphics.lineStyle(2, 0x000CFF, 1);
+
+        // draw a shape
+        graphics.moveTo(this.groundVertices[0],1000);
+        mask.moveTo(this.groundVertices[0],1000);
+        var i = 0;
+        for (i = 0; i < this.groundVertices.length; i+=2) {
+            graphics.lineTo(this.groundVertices[i], this.groundVertices[i+1]);
+            mask.lineTo(this.groundVertices[i], this.groundVertices[i+1]);
+        }
+        graphics.lineTo(this.groundVertices[i-2],1000);
+        mask.lineTo(this.groundVertices[i-2],1000);
+
+        var pattern = this.game.add.tileSprite(this.groundVertices[0], this.groundVertices[1], 1000, 1000, 'pattern');
+        pattern.mask = mask;
 
     },
     update: function () {
