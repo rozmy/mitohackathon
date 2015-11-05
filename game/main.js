@@ -19,8 +19,5 @@ window.onload = function () {
         resizeGame();
     });
 
-    game.stats = new Stats(game);
-    game.stats.init();
     game.state.start('lander');
-    setTimeout(game.Game.new.bind(game.Game), 0);
 };

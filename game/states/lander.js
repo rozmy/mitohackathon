@@ -33,6 +33,10 @@ Lander.prototype = {
         4858.19,-1.45256,4896.91,5.9419,4925.06,31.9846,4960.49,17.0905,5006.14,15.8518,
         5050.86,24.3401,5078.48,41.8191,5498.61,41.7032];
 
+        this.game.stats = new Stats(this.game);
+        this.game.stats.init();
+        setTimeout(this.game.Game.new.bind(this.game.Game), 0);
+
         this.game.LanderState = this;
     },
     preload: function () {
