@@ -1,0 +1,100 @@
+/*
+#000cff kek
+#fafae6 sarga
+#373d37 szurke
+*/
+
+@font-face {
+    font-family: 'BPmono';
+    src: url('assets/fonts/bpmono-webfont.eot');
+    src: url('assets/fonts/bpmono-webfont.eot?#iefix') format('embedded-opentype'),
+         url('assets/fonts/bpmono-webfont.woff2') format('woff2'),
+         url('assets/fonts/bpmono-webfont.woff') format('woff'),
+         url('assets/fonts/bpmono-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BPmono';
+    src: url('assets/fonts/bpmonobold-webfont.eot');
+    src: url('assets/fonts/bpmonobold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('assets/fonts/bpmonobold-webfont.woff2') format('woff2'),
+         url('assets/fonts/bpmonobold-webfont.woff') format('woff'),
+         url('assets/fonts/bpmonobold-webfont.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* LAYOUT */
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+.controlPanel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    flex-grow: 1;
+}
+
+.status,
+.viewSwitch,
+.settings {
+    flex-grow: 0;
+}
+
+
+.techTree {
+    display: none; /* TMP */
+}
+
+
+/* STYLE */
+
+body,
+input, button {
+    font: 20px/1.3 BPmono, sans-serif;
+    text-align: left;
+}
+
+.controlPanel {
+    color: white;
+}
+
+.logo,
+.status,
+.viewSwitch,
+.settings {
+    background: #000cff;
+}
+
+.logo h1 {
+    text-transform: uppercase;
+    font-size: 1em;
+    margin: 30px auto;
+    width: 130px;
+    height: 130px;
+    line-height: 130px;
+    border-radius: 50%;
+    background: #fafae6;
+    color: #000cff;
+    text-align: center;
+}
+
+.moneyAmount {
+    font: 100px/1 'Abril Fatface', serif;
+}
+
+.viewSwitch {
+    background: transparent;
+}

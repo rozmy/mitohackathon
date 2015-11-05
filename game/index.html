@@ -1,56 +1,53 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Mito Hackathon 2015!</title>
-    <script src="../phaser/phaser.js"></script>
-    <script src="../phaser/box2d-plugin-full.js"></script>
-    <script src="states/gameover.js"></script>
-    <script src="states/lander.js"></script>
-    <script src="stats.js"></script>
-    <script src="research.js"></script>
-    <script src="game.js"></script>
-    <script src="audiomanager.js"></script>
-    <script src="main.js"></script>
-    <style>
-        body, canvas {
-            margin: 0;
-            padding: 0;
-        }
+    <head>
+        <meta charset="UTF-8" />
+        <title>Mito Hackathon 2015!</title>
+        <script src="../phaser/phaser.js"></script>
+        <script src="../phaser/box2d-plugin-full.js"></script>
+        <script src="states/gameover.js"></script>
+        <script src="states/lander.js"></script>
+        <script src="stats.js"></script>
+        <script src="research.js"></script>
+        <script src="game.js"></script>
+        <script src="audiomanager.js"></script>
+        <script src="main.js"></script>
 
-        .controlPanel {
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 300px;
-            background: #000CFF;
-            color: white;
-            display: flex;
-            flex-direction: column;
-        }
-    </style>
+        <link href='https://fonts.googleapis.com/css?family=Abril+Fatface' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="../style.css">
+
     </head>
     <body>
         <div class="controlPanel">
+            <div class="logo">
+                <h1>Logo</h1>
+            </div>
             <div class="status">
-                <p>oxygen: <span class="oxygenAmount"></span></p>
-                <p>water: <span class="waterAmount"></span></p>
-                <p>food: <span class="foodAmount"></span></p>
-                <p>electricity: <span class="electricityAmount"></span></p>
-                <p>$: <span class="moneyAmount"></span></p>
+                <p><span class="icon-money">money</span> <span class="moneyAmount"></span></p>
+                <p><span class="icon-oxygen">oxygen</span> <span class="oxygenAmount"></span></p>
+                <p><span class="icon-water">water</span> <span class="waterAmount"></span></p>
+                <p><span class="icon-food">food</span> <span class="foodAmount"></span></p>
+                <p><span class="icon-electricity">electricity</span> <span class="electricityAmount"></span></p>
+
                 <p>stuff: <span class="stuffAmount"></span></p>
                 <button class="collectMoneyButton">collect money</button>
             </div>
-            <div class="techtree">
-                <!-- TODO render from research tree -->
-                <p><button class="startResearchButton" data-res-id="P1">Solar Powerplant</button></p>
-                <p><button class="startResearchButton" data-res-id="P2" disabled>Advanced solar cells</button></p>
-                <p><button class="stopResearchButton">stop research</button></p>
-
-                <p><button class="deployButton">Deploy</button></p>
-                <p><button class="launchButton">Launch</button></p>
+            <button class="active viewSwitch">Planet view</button>
+            <button class="viewSwitch">Tech tree</button>
+            <div class="settings">
+                <button>Pause</button>
+                <button>mute</button>
             </div>
+        </div>
+
+        <div class="techTree">
+            <!-- TODO render from research tree -->
+            <p><button class="startResearchButton" data-res-id="P1">Solar Powerplant</button></p>
+            <p><button class="startResearchButton" data-res-id="P2" disabled>Advanced solar cells</button></p>
+            <p><button class="stopResearchButton">stop research</button></p>
+
+            <p><button class="deployButton">Deploy</button></p>
+            <p><button class="launchButton">Launch</button></p>
         </div>
     </body>
 </html>
