@@ -100,7 +100,6 @@ Game.prototype.updateResources = function() {
         if ('e' in rb) { this.ELECTRICITY += nb*rb.e }
     }
 
-<<<<<<< f086aadac8d89b6ba8d4b293dd53279abf97a182
     // Pay incompleted researches
     for (var i = 0; i<this.researchControl.researches.length; i++) {
         var r = this.researchControl.researches[i];
@@ -116,9 +115,8 @@ Game.prototype.updateResources = function() {
         if (r.paid == r.getPrice()) r.finish();
     }
 
-=======
     this.stats.update();
->>>>>>> html stats
+
     // Detect game over
     if (this.isGameOver()) this.leave();
 };
