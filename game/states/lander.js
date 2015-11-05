@@ -143,8 +143,11 @@ Lander.prototype = {
         // this.ship.m_linearVelocity.SetZero();
         // this.ship.m_angularVelocity = 0.0;
         // this.ship.setMass(999);
-        this.ship.body.moves = false;
-        this.ship.body.immovable = true;
+        // this.ship.body.immovable = true;
+        this.ship.body.velocity.x = 0;
+        this.ship.body.velocity.y = 0;
+        this.ship.body.fixedRotation = true;
+        this.ship.body.static = true;
         this.facilities.push(this.ship);
         this.ship = null;
         this.game.Game.deployResearch(this.shipID);
