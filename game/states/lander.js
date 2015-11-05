@@ -41,28 +41,35 @@ Lander.prototype = {
         this.game.load.image('ship', '../assets/sprites/ship01.png');
         this.game.load.image('pattern', '../assets/patterns/pattern1.png');
     },
+    changeWind: function() {
+        var wind_diff = [-1,1][Math.round(Math.random())] * Math.round(Math.random()*5),
+            wind = this.game.physics.box2d.gravity.x + wind_diff;
+
+        if (wind>30) wind = 30;
+        if (wind<-30) wind = -30;
+        this.game.physics.box2d.gravity.x = wind;
+    },
     create: function () {
-    	this.game.world.setBounds(-10000, -10000, 20000, 20000);
+        this.game.world.setBounds(-10000, -10000, 20000, 20000);
+        this.game.stage.backgroundColor = '#FAFAE6';
 
-    	this.game.stage.backgroundColor = '#FAFAE6';
+        // Enable Box2D physics
+        this.game.physics.startSystem(Phaser.Physics.BOX2D);
+        
+        // Set up wind calculation and change
+        var wind = [-1,1][Math.round(Math.random())] * Math.round(Math.random()*5);
+        this.game.physics.box2d.gravity.x = wind;
+        this.game.time.events.loop(this.game.rnd.integerInRange(750, 5000), this.changeWind, this);
 
-    	// Enable Box2D physics
-    	this.game.physics.startSystem(Phaser.Physics.BOX2D);
-    	this.game.physics.box2d.gravity.y = 100;
-    	this.game.physics.box2d.friction = 0.8;
+        // Set up gravity
+        this.game.physics.box2d.gravity.y = 120;
+        this.game.physics.box2d.friction = 0.8;
 
-    	// Make the ground body
-    	var groundBody = new Phaser.Physics.Box2D.Body(this.game, null, 0, 200, 0);
-    	groundBody.setChain(this.groundVertices);
+        // Make the ground body
+        var groundBody = new Phaser.Physics.Box2D.Body(this.game, null, 0, 200, 0);
+        groundBody.setChain(this.groundVertices);
 
-        this.ship = this.game.add.sprite(200, -200, 'ship');
-        this.game.physics.box2d.enable(this.ship);
-        this.ship.body.setRectangle(81,84,0,0);
-        this.ship.body.restitution = 0.2;
-
-    	this.cursors = this.game.input.keyboard.createCursorKeys();
-
-    	this.game.camera.follow(this.ship);
+        this.cursors = this.game.input.keyboard.createCursorKeys();
 
         var graphics = this.game.add.graphics(0, 200);
         var mask = this.game.add.graphics(0, 200);
@@ -84,14 +91,31 @@ Lander.prototype = {
 
         var pattern = this.game.add.tileSprite(this.groundVertices[0], this.groundVertices[1], 1000, 1000, 'pattern');
         pattern.mask = mask;
-
+        
+        this.ship = null;
+    },
+    launch: function() {
+        this.ship = this.game.add.sprite(200, -200, 'ship');
+        this.game.physics.box2d.enable(this.ship);
+        this.ship.body.setRectangle(81,84,0,0);
+        this.ship.body.restitution = 0.2;
+        this.game.camera.follow(this.ship);
+    },
+    deploy: function() {
+        
+    },
+    hasShip: function() {
+        return (this.ship != null)
     },
     update: function () {
+        if (!this.hasShip())
+            return;
+
         if (this.cursors.left.isDown) {
-            this.ship.body.rotateLeft(300);
+            this.ship.body.rotateLeft(100);
         }
         else if (this.cursors.right.isDown) {
-            this.ship.body.rotateRight(300);
+            this.ship.body.rotateRight(100);
         }
         else {
             this.ship.body.setZeroRotation();
@@ -99,9 +123,6 @@ Lander.prototype = {
 
         if (this.cursors.up.isDown) {
             this.ship.body.thrust(300);
-        }
-        else if (this.cursors.down.isDown) {
-            this.ship.body.reverse(300);
         }
     },
     render: function () {
