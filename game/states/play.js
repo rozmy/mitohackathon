@@ -8,7 +8,9 @@ Play.prototype = {
         this.game.Game.new();
 
         this.collectMoneyButton = this.game.add.button(this.game.world.centerX - 95, 400, 'button', this.collectMoney, this );
-
+        this.startBtn = this.game.add.button(this.game.world.centerX - 95, 500, 'button', this.startResearchButton, this );
+        this.stopBtn = this.game.add.button(this.game.world.centerX, 500, 'button', this.stopResearchButton, this );
+        
         var style = { font: "24px Arial", fill: "#ff0044", align: "center" };
         this.oxygen = this.game.add.text(
             15, 
@@ -42,6 +44,12 @@ Play.prototype = {
         );
     },
     
+    startResearchButton: function() {
+        this.game.Game.startResearch('W1');
+    },
+    stopResearchButton: function() {
+        this.game.Game.stopResearch('W1');
+    },
     collectMoney: function() {
         this.game.Game.collect();
         this.money.text = "Money: " + this.game.Game.MONEY;

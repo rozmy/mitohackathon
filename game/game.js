@@ -2,22 +2,23 @@
 
 var Game = function (game) {
     this.game = game;
+    this.researchControl = new ResearchMissionControl();
 };
 
 Game.prototype.reset = function() {
     // Available resources
     this.POPULATION = 1;
-    this.OXYGEN = 10;
-    this.WATER = 10;
-    this.FOOD = 10;
+    this.OXYGEN = 25;
+    this.WATER = 25;
+    this.FOOD = 25;
     this.ELECTRICITY = 0;
     this.MONEY = 0;
 
     // Modifiers
-    this.money_amount = 1;
+    this.moneyAmount = 1;
 
-    // Deployed facilities on the ground
-    this.facilities = [];
+    // Deployed facilities and researches
+    this.researched = [];
 }
 
 Game.prototype.new = function () {
@@ -28,8 +29,26 @@ Game.prototype.new = function () {
     this.timer = this.game.time.events.loop(1000, this.updateResources, this);
 };
 
+Game.prototype.startResearch = function(id) {
+    // Get the Research object
+    var obj = this.researchControl.getResearch(id);
+    if (!obj.isBuildable()) return;
+
+    console.log('Start `' + id + '` research.')
+    this.researchControl.start(obj);
+};
+
+Game.prototype.stopResearch = function(id) {
+    var obj = this.researchControl.getResearch(id);
+    if (!obj.isInProgress()) return;
+
+    console.log('Stop `' + id + '` research, `' + obj.paid +'` was paid back.')
+    this.MONEY += obj.paid;
+    this.researchControl.stop(obj);
+};
+
 Game.prototype.collect = function() {
-    this.MONEY += this.money_amount;
+    this.MONEY += this.moneyAmount;
 };
 
 Game.prototype.updateResources = function() {
@@ -37,8 +56,22 @@ Game.prototype.updateResources = function() {
     this.OXYGEN -= this.POPULATION;
     this.WATER -= this.POPULATION;
     this.FOOD -= this.POPULATION;
+    
+    // Other resource consuption
+    this.MONEY += this.moneyAmount;
 
-    for (var i = 0; i++; this.FACILITIES.length) {}
+    // Add extras of finished researches
+    for (var i = 0; i<this.researchControl.researches.length; i++) {
+        var r = this.researchControl.researches[i],
+            rb = r.base.resource,
+            nb = r.number;
+
+        if (nb==0) continue;
+        if ('o' in rb) { this.OXYGEN += nb*rb.o }
+        if ('w' in rb) { this.WATER += nb*rb.w }
+        if ('f' in rb) { this.FOOD += nb*rb.f }
+        if ('e' in rb) { this.ELECTRICITY += nb*rb.e }
+    }
 
     // Detect game over
     if (this.isGameOver()) this.leave();
