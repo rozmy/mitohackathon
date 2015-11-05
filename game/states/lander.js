@@ -5,8 +5,8 @@ function Lander() {
 
 Lander.prototype = {
     init: function () {
-        this.groundVertices = [-200,-0,-130.128,5.08323,-89.0526,-0.105309,-31.5464,1.19183,1.31426,5.5156,
-        50.6053,4.21846,87.7897,-2.26719,148.755,-4.42908,200,-0,251.899,4.99306,
+        this.groundVertices = [0,0,-1.128,5.08323,40.31426,0,
+        50.6053,0,87.7897,0,148.755,0,200,0,251.899,4.99306,
         289.063,13.0285,335.267,18.0508,369.418,9.01079,383.48,14.033,410.6,3.9886,
         433.702,2.98414,467.853,10.0152,487.942,20.0596,512.048,23.073,545.195,8.00633,
         571.31,1.97973,591.399,-16.1001,623.541,-24.1356,647.647,-20.1179,678.785,-22.1268,
@@ -40,9 +40,10 @@ Lander.prototype = {
         this.game.load.image('tiles2', '../assets/tilemaps/tiles/tiles2.png');
         this.game.load.image('ship', '../assets/sprites/ship01.png');
         this.game.load.image('pattern', '../assets/patterns/pattern1.png');
+        this.game.load.image('base', '../assets/sprites/base.png');
     },
     create: function () {
-    	this.game.world.setBounds(-10000, -10000, 20000, 20000);
+    	this.game.world.setBounds(0, -10000, 20000, 20000);
 
     	this.game.stage.backgroundColor = '#FAFAE6';
 
@@ -54,6 +55,11 @@ Lander.prototype = {
     	// Make the ground body
     	var groundBody = new Phaser.Physics.Box2D.Body(this.game, null, 0, 200, 0);
     	groundBody.setChain(this.groundVertices);
+
+        // base
+        var base = this.game.add.sprite(100, 190, 'base');
+        this.game.physics.box2d.enable(base);
+        base.body.setRectangle(128,119,0,0);
 
         this.ship = this.game.add.sprite(200, -200, 'ship');
         this.game.physics.box2d.enable(this.ship);
