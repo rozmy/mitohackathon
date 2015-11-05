@@ -9,24 +9,43 @@ Stats.prototype = {
 
         this.collectMoneyButton = document.querySelector('.collectMoneyButton');
 
-        this.startBtn = document.querySelector('.startResearchButton');
-        this.startBtn.addEventListener('click', this.startResearchButton);
-
-        this.stopBtn = document.querySelector('.stopResearchButton');
-        this.stopBtn.addEventListener('click', this.stopResearchButton);
-
-        var style = { font: "24px Arial", fill: "#ff0044", align: "center" };
         this.oxygen = document.querySelector('.oxygenAmount');
         this.water = document.querySelector('.waterAmount');
         this.food = document.querySelector('.foodAmount');
         this.electricity = document.querySelector('.electricityAmount');
         this.money = document.querySelector('.moneyAmount');
+        this.stuff = document.querySelector('.stuffAmount');
+
+        // TODO move to resource sg
+        this.startBtn = document.querySelector('.startResearchButton');
+        this.startBtn.addEventListener('click', this.startResearchButton.bind(this));
+
+        this.stopBtn = document.querySelector('.stopResearchButton');
+        this.stopBtn.addEventListener('click', this.stopResearchButton.bind(this));
+
+
+        // TODO move to sg
+        this.deployBtn = document.querySelector('.deployButton');
+        this.deployBtn.addEventListener('click', this.deployButton.bind(this));
+
+        this.launchBtn = document.querySelector('.launchButton');
+        this.launchBtn.addEventListener('click', this.launchButton.bind(this));
+
+
     },
-    startResearchButton: function() {
-        this.game.Game.startResearch('W1');
+    // TODO move to resource sg
+    startResearchButton: function(event) {
+        this.game.Game.startResearch(event.target.dataset.resId);
     },
     stopResearchButton: function() {
         this.game.Game.stopResearch('W1');
+    },
+    // TODO move to something
+    deployButton: function() {
+        this.game.Game.deployResearch('W1');
+    },
+    launchButton: function() {
+        this.game.Game.launchResearch('W1');
     },
     collectMoney: function() {
         this.game.Game.collect();
@@ -38,6 +57,7 @@ Stats.prototype = {
         this.food.textContent = this.game.Game.FOOD;
         this.electricity.textContent = this.game.Game.ELECTRICITY;
         this.money.textContent = this.game.Game.MONEY;
+        this.stuff.textContent = JSON.stringify(this.game.Game.researchControl.researches);
     },
     render: function() {
     }
