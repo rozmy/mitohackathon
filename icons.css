@@ -41,6 +41,12 @@
     background-position: -136px -5px;
 }
 
+.icon-menu-play {
+    width: 46px;
+    height: 46px;
+    background-position: -172px -117px;
+}
+
 button:hover .icon-menu-pause {
     background-position: -5px -61px;
 }
@@ -63,18 +69,11 @@ button:hover .icon-menu-volume-off {
 .muted .icon-menu-volume-off {
     width: 46px;
     height: 46px;
-    background-position: -172px -61px;
+    background-position: -171px -61px;
 }
 
 button.muted:hover .icon-menu-volume-off {
-    background-position: -5px -117px;
-}
-
-
-.icon-menu-pause {
-    width: 46px;
-    height: 46px;
-    background-position: -172px -117px;
+    background-position: -4px -117px;
 }
 
 .icon-oxygen {
