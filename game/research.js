@@ -151,25 +151,29 @@ ResearchTree.prototype = {
     }
 };
 
-var Research = function(base) {
-    this.LAUNCHABLE = 1;
-    this.IN_PROGRESS = 2;
-    this.READY_TO_BUILD = 3;
+var LAUNCHABLE = 3;
+var IN_PROGRESS = 2;
+var READY_TO_BUILD = 1;
 
+var Research = function(base) {
     this.number = 0;
     this.priceRatio = 1.0;
-    this.status = this.READY_TO_BUILD;
+    this.status = READY_TO_BUILD;
     this.paid = 0;
     this.base = base;
 };
 Research.prototype = {
     isBuildable: function() {
         // TODO: Return false when only one object is buildable (e.g.: techs)
-        return (this.status == this.READY_TO_BUILD);
+        return (this.status == READY_TO_BUILD);
     },
     
     isInProgress: function() {
-        return (this.status == this.IN_PROGRESS);
+        return (this.status == IN_PROGRESS);
+    },
+    
+    isLaunchable: function() {
+        return (this.status == LAUNCHABLE);
     },
 
     getPrice: function() {
@@ -177,19 +181,31 @@ Research.prototype = {
     },
 
     start: function() {
-        this.status = this.IN_PROGRESS;
+        this.status = IN_PROGRESS;
         this.paid = 0;
     },
     
     stop: function() {
-        this.status = this.READY_TO_BUILD;
+        this.status = READY_TO_BUILD;
         this.paid = 0;
     },
     
-    finished: function() {
-        // TODO: Execute `this.number++` after deploy.
+    finish: function() {
         this.priceRatio *= 1.1;
-        this.status = this.LAUNCHABLE;
+        this.status = LAUNCHABLE;
+    },
+    
+    launch: function() {
+        this.stop();
+    },
+
+    deploy: function() {
+        this.number++;
+    },
+    
+    destroy: function() {
+        if (this.number > 0)
+            this.number--;
     }
 };
 
@@ -205,6 +221,13 @@ ResearchMissionControl.prototype = {
             return null;
     },
     
+    isAlreadyResearched: function(obj) {
+        for (var i=0; i<this.researches.length; i++)
+            if (this.researches[i].base.id == obj.base.id)
+                return true;
+        return false;
+    },
+    
     getResearch: function(id) {
         var research = this.getAlreadyResearched(id);
         if (!research) {
@@ -215,13 +238,23 @@ ResearchMissionControl.prototype = {
     
     start: function(obj) {
         obj.start();
-        this.researches.push(obj)
+        if (!this.isAlreadyResearched())
+            this.researches.push(obj)
     },
     
     stop: function(obj) {
         obj.stop();
-        if (obj.number == 0) {
-            // TODO: Remove from list.
-        }
+    },
+    
+    launch: function(obj) {
+        obj.launch();
+    },
+    
+    deploy: function(obj) {
+        obj.deploy();
+    },
+    
+    destroy: function(obj) {
+        obj.destroy();
     }
 };

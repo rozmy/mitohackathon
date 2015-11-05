@@ -12,12 +12,22 @@ Stats.prototype = {
 
         this.startBtn = this.game.add.button(this.game.world.centerX - 95, 500, 'button', this.startResearchButton, this );
         this.stopBtn = this.game.add.button(this.game.world.centerX, 500, 'button', this.stopResearchButton, this );
-
+        this.launchBtn = this.game.add.button(this.game.world.centerX + 95, 500, 'button', this.launchButton, this );
+        this.deployBtn = this.game.add.button(this.game.world.centerX + 180, 500, 'button', this.deployButton, this );
+        
         this.collectMoneyButton.fixedToCamera = true;
         this.startBtn.fixedToCamera = true;
         this.stopBtn.fixedToCamera = true;
 
         var style = { font: "24px Arial", fill: "#ff0044", align: "center" };
+        this.cuccokText = this.game.add.text(
+            15,
+            175,
+            ':)',
+            { font: "14px Arial", fill: "#ff0044", align: "center" }
+        );
+        this.cuccokText.fixedToCamera = true;
+
         this.oxygen = this.game.add.text(
             15,
             15,
@@ -60,6 +70,12 @@ Stats.prototype = {
     stopResearchButton: function() {
         this.game.Game.stopResearch('W1');
     },
+    deployButton: function() {
+        this.game.Game.deployResearch('W1');
+    },
+    launchButton: function() {
+        this.game.Game.launchResearch('W1');
+    },
     collectMoney: function() {
         this.game.Game.collect();
         this.money.text = "Money: " + this.game.Game.MONEY;
@@ -70,6 +86,7 @@ Stats.prototype = {
         this.food.text = "Food: " + this.game.Game.FOOD;
         this.electricity.text = "Electricity: " + this.game.Game.ELECTRICITY;
         this.money.text = "Money: " + this.game.Game.MONEY;
+        this.cuccokText.text = JSON.stringify(this.game.Game.researchControl.researches);
     },
     render: function() {
     }

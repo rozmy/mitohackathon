@@ -7,9 +7,9 @@ var Game = function (game) {
 Game.prototype.reset = function() {
     // Available resources
     this.POPULATION = 1;
-    this.OXYGEN = 25;
-    this.WATER = 25;
-    this.FOOD = 25;
+    this.OXYGEN = 90;
+    this.WATER = 90;
+    this.FOOD = 90;
     this.ELECTRICITY = 0;
     this.MONEY = 0;
 
@@ -23,9 +23,6 @@ Game.prototype.reset = function() {
 Game.prototype.new = function () {
     // Reset the basic resources
     this.reset();
-
-    // var stats = new Stats(this.game);
-    // setTimeout(function(){stats.init();},0); // wait for game to initialize
 
     // Set the timer to calculate resources
     this.timer = this.game.time.events.loop(1000, this.updateResources, this);
@@ -47,6 +44,28 @@ Game.prototype.stopResearch = function(id) {
     console.log('Stop `' + id + '` research, `' + obj.paid +'` was paid back.')
     this.MONEY += obj.paid;
     this.researchControl.stop(obj);
+};
+
+Game.prototype.launchResearch = function(id) {
+    var obj = this.researchControl.getResearch(id);
+    if (!obj.isLaunchable()) return;
+
+    console.log('Launch `' + id + '` research, `, another research is available.')
+    this.researchControl.launch(obj);
+};
+
+Game.prototype.deployResearch = function(id) {
+    var obj = this.researchControl.getResearch(id);
+
+    console.log('Deploy `' + id + '` research, `, gathering new resources.')
+    this.researchControl.deploy(obj);
+};
+
+Game.prototype.destroyResearch = function(id) {
+    var obj = this.researchControl.getResearch(id);
+
+    console.log('Destroyed a `' + id + '` research, `, losing resources.')
+    this.researchControl.destroy(obj);
 };
 
 Game.prototype.collect = function() {
@@ -73,6 +92,21 @@ Game.prototype.updateResources = function() {
         if ('w' in rb) { this.WATER += nb*rb.w }
         if ('f' in rb) { this.FOOD += nb*rb.f }
         if ('e' in rb) { this.ELECTRICITY += nb*rb.e }
+    }
+
+    // Pay incompleted researches
+    for (var i = 0; i<this.researchControl.researches.length; i++) {
+        var r = this.researchControl.researches[i];
+        
+        if (r.status != IN_PROGRESS) continue;
+        if (this.MONEY == 0) break;
+        
+        // Pay for the research
+        r.paid++;
+        this.MONEY--;
+
+        // Make it launchable.
+        if (r.paid == r.getPrice()) r.finish();
     }
 
     // Detect game over
