@@ -26,6 +26,16 @@ Stats.prototype = {
 
         this.launchBtn = document.querySelector('.launchButton');
         this.launchBtn.addEventListener('click', this.launchButton.bind(this));
+        
+        this.pauseBtn = document.querySelector('.pauseButton');
+        this.pauseBtn.addEventListener('click', this.pauseButton.bind(this));
+    },
+    pauseButton: function(event) {
+        if (!this.game.Game.isPaused()) {
+            this.game.Game.pause();
+        } else {
+            this.game.Game.resume();
+        }
     },
     // TODO move to resource sg
     startResearchButton: function(event) {

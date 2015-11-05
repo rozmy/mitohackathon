@@ -125,6 +125,9 @@ Game.prototype.isGameOver = function() {
     return (this.OXYGEN < 0 || this.WATER < 0 || this.FOOD < 0);
 };
 
+Game.prototype.isPaused = function() {
+    return this.game.paused;
+}
 Game.prototype.pause = function () {
     this.game.paused = true;
 };
