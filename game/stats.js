@@ -24,15 +24,8 @@ Stats.prototype = {
         this.stopBtn = document.querySelector('.stopResearchButton');
         this.stopBtn.addEventListener('click', this.stopResearchButton.bind(this));
 
-
-        // TODO move to sg
-        this.deployBtn = document.querySelector('.deployButton');
-        this.deployBtn.addEventListener('click', this.deployButton.bind(this));
-
         this.launchBtn = document.querySelector('.launchButton');
         this.launchBtn.addEventListener('click', this.launchButton.bind(this));
-
-
     },
     // TODO move to resource sg
     startResearchButton: function(event) {
@@ -41,18 +34,11 @@ Stats.prototype = {
     stopResearchButton: function() {
         this.game.Game.stopResearch('W1');
     },
-    // TODO move to something
-    deployButton: function() {
-        this.game.Game.deployResearch('W1');
-    },
     launchButton: function() {
-        var result = this.game.Game.launchResearch('P1');
-        if (result)
-            this.game.LanderState.launch();
+        this.game.LanderState.launch('P1');
     },
     collectMoney: function() {
         this.game.Game.collect();
-        console.log('megtortent');
         this.money.textContent = this.game.Game.MONEY;
     },
     update: function() {

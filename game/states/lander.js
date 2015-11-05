@@ -69,13 +69,13 @@ Lander.prototype = {
         this.game.physics.box2d.friction = 0.8;
 
         // Make the ground body
-        var groundBody = new Phaser.Physics.Box2D.Body(this.game, null, 0, 200, 0);
-        groundBody.setChain(this.groundVertices);
+        this.groundBody = new Phaser.Physics.Box2D.Body(this.game, null, 0, 200, 0);
+        this.groundBody.setChain(this.groundVertices);
 
         // base
-        var base = this.game.add.sprite(100, 190, 'base');
-        this.game.physics.box2d.enable(base);
-        base.body.setRectangle(128,119,0,0);
+        this.base = this.game.add.sprite(100, 190, 'base');
+        this.game.physics.box2d.enable(this.base);
+        this.base.body.setRectangle(128,119,0,0);
 
     	this.cursors = this.game.input.keyboard.createCursorKeys();
 
@@ -97,20 +97,62 @@ Lander.prototype = {
         graphics.lineTo(this.groundVertices[i-2],1000);
         mask.lineTo(this.groundVertices[i-2],1000);
 
-        var pattern = this.game.add.tileSprite(this.groundVertices[0], this.groundVertices[1], 1000, 1000, 'pattern');
-        pattern.mask = mask;
-        
+        this.pattern = this.game.add.tileSprite(this.groundVertices[0], this.groundVertices[1], 1000, 1000, 'pattern');
+        this.pattern.mask = mask;
+        this.graphics = graphics;
         this.ship = null;
+        this.facilities = [];
     },
-    launch: function() {
+    launch: function(id) {
+        if (this.hasShip()) return;
+        if (!this.game.Game.launchResearch(id)) return;
+
         this.ship = this.game.add.sprite(200, -200, 'ship');
+        this.shipID = id;
         this.game.physics.box2d.enable(this.ship);
         this.ship.body.setRectangle(81,84,0,0);
         this.ship.body.restitution = 0.2;
+        this.ship.body.angularDampiong = 0.1;
+        this.ship.body.angularVelocity = 1.2;
         this.game.camera.follow(this.ship);
+
+        // this.ship.body.setBodyContactCallback(this.groundBody, this.onDeployed, this);
+        this.ship.body.setBodyContactCallback(this.base, this.onDeployed, this);
+        for (var i=0; i<this.facilities.length; i++)
+            this.ship.body.setBodyContactCallback(this.facilities[i], this.onDestroyFacility, this);
+
     },
-    deploy: function() {
+    onDeployed: function(body1, body2, fixture1, fixture2, begin) {
+        if (!this.hasShip()) return;
+
+        if (Math.abs(this.ship.angle) > 20) {
+            // TODO: Explosion.
+            this.ship.destroy();
+            this.ship = null;
+            return;
+        }
         
+        // TODO: Destroy if it arrives too fast.
+
+        // TODO: Make it unmoveable after stops. These solutions aren't working.
+        // this.ship.m_linearVelocity.SetZero();
+        // this.ship.m_angularVelocity = 0.0;
+        // this.ship.setMass(999);
+        this.ship.body.moves = false;
+        this.ship.body.immovable = true;
+        this.facilities.push(this.ship);
+        this.ship = null;
+        this.game.Game.deployResearch(this.shipID);
+    },
+    onDestroyBase: function(body1, body2, fixture1, fixture2, begin) {
+        this.game.state.start('gameover');
+    },
+    onDestroyFacility: function(body1, body2, fixture1, fixture2, begin) {
+        if (!this.hasShip()) return;
+        this.ship.destroy();
+        this.ship = null;
+        
+        // TODO: Destroy body2 too.
     },
     hasShip: function() {
         return (this.ship != null)
@@ -129,9 +171,8 @@ Lander.prototype = {
             this.ship.body.setZeroRotation();
         }
 
-        if (this.cursors.up.isDown) {
+        if (this.cursors.up.isDown) 
             this.ship.body.thrust(300);
-        }
     },
     render: function () {
         this.game.debug.box2dWorld();

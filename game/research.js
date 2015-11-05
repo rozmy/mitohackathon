@@ -238,7 +238,7 @@ ResearchMissionControl.prototype = {
     
     start: function(obj) {
         obj.start();
-        if (!this.isAlreadyResearched())
+        if (!this.isAlreadyResearched(obj))
             this.researches.push(obj)
     },
     
