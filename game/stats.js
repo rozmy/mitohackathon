@@ -33,11 +33,11 @@ Stats.prototype = {
         this.money.textContent = "Money: " + this.game.Game.MONEY;
     },
     update: function() {
-        this.oxygen.textContent = "Oxygen: " + this.game.Game.OXYGEN;
-        this.water.textContent = "Water: " + this.game.Game.WATER;
-        this.food.textContent = "Food: " + this.game.Game.FOOD;
-        this.electricity.textContent = "Electricity: " + this.game.Game.ELECTRICITY;
-        this.money.textContent = "Money: " + this.game.Game.MONEY;
+        this.oxygen.textContent = this.game.Game.OXYGEN;
+        this.water.textContent = this.game.Game.WATER;
+        this.food.textContent = this.game.Game.FOOD;
+        this.electricity.textContent = this.game.Game.ELECTRICITY;
+        this.money.textContent = this.game.Game.MONEY;
     },
     render: function() {
     }

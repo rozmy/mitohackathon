@@ -24,12 +24,6 @@ Game.prototype.new = function () {
     // Reset the basic resources
     this.reset();
 
-    this.stats = new Stats(this.game); // TMP test stats
-    setTimeout((function(){
-        this.stats.init();
-        this.updateResources();
-    }).bind(this),0); // wait for game to initialize
-
     // Set the timer to calculate resources
     this.timer = this.game.time.events.loop(1000, this.updateResources, this);
 };
@@ -115,7 +109,7 @@ Game.prototype.updateResources = function() {
         if (r.paid == r.getPrice()) r.finish();
     }
 
-    this.stats.update();
+    this.game.stats.update();
 
     // Detect game over
     if (this.isGameOver()) this.leave();
