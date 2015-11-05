@@ -143,11 +143,13 @@ input, button {
     width: 0;
 }
 
+
 .settings {
     display: flex;
     display: -webkit-flex;
     justify-content: space-between;
     padding-top: 20px;
+    overflow: hidden;
 }
 
 .settings button {
@@ -156,4 +158,10 @@ input, button {
     padding: 10px;
     font-size: 16px;
     cursor: pointer;
+}
+
+
+#sc-widget {
+    position: absolute;
+    left: 110%;
 }

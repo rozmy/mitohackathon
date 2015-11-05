@@ -60,13 +60,13 @@ button:hover .icon-menu-volume-off {
     background-position: -192px -5px;
 }
 
-.icon-menu-volume-on {
+.muted .icon-menu-volume-off {
     width: 46px;
     height: 46px;
     background-position: -172px -61px;
 }
 
-button:hover .icon-menu-volume-on {
+button.muted:hover .icon-menu-volume-off {
     background-position: -5px -117px;
 }
 

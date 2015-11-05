@@ -37,7 +37,21 @@
             <button class="viewSwitch"><span>Tech tree</span></button>
             <div class="settings">
                 <button class="pauseButton"><span class="icon icon-menu-pause"></span> Pause</button>
-                <button class="muteButton"><span class="icon icon-menu-volume-off"></span> mute</button>
+                <button class="muteButton"><span class="icon icon-menu-volume-off"></span></button>
+
+                <iframe id="sc-widget" width="100" height="100" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/162378817&amp;color=ff5500&amp;auto_play=true&amp;hide_related=true&amp;show_comments=true&amp;show_user=false&amp;show_reposts=false"></iframe>
+                <script src="https://w.soundcloud.com/player/api.js" type="text/javascript"></script>
+                <script type="text/javascript">
+                  (function(){
+                    var widget = SC.Widget('sc-widget');
+
+                    document.querySelector('.muteButton').addEventListener('click', function(event){
+                        widget.toggle();
+                        event.currentTarget.classList.toggle('muted');
+                    });
+
+                  }());
+                </script>
             </div>
         </div>
 
