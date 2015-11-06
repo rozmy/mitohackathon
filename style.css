@@ -314,6 +314,7 @@ p.money {
     font: 26px/1 'Abril Fatface', serif;
     padding-bottom: .5em;
     border-bottom: 8px solid #000cff;
+    margin: 0;
 }
 
 .techItem .description {
@@ -328,6 +329,21 @@ p.money {
     background: white;
     font-size: 16px;
     padding: 1em;
+}
+
+.techItem table {
+    width: 100%;
+    margin: .5em 0 .3em;
+}
+
+td, th {
+    text-align: center;
+    font-size: 10px;
+    width: 25%;
+}
+
+.decrease {
+    color: #000cff;
 }
 
 .launchButton,

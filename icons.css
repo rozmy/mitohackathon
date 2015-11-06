@@ -81,3 +81,21 @@ button.muted:hover .icon-menu-volume-off {
     height: 23px;
     background-position: -5px -173px;
 }
+
+.icon-food {
+    width: 23px;
+    height: 23px;
+    background-position: -5px -5px;
+}
+
+.icon-power {
+    width: 23px;
+    height: 23px;
+    background-position: -38px -173px;
+}
+
+.icon-water {
+    width: 23px;
+    height: 23px;
+    background-position: -71px -173px;
+}
