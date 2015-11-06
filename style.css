@@ -133,7 +133,7 @@ button {
 }
 
 .moneyAmount {
-    font: 80px/1 'Abril Fatface', serif;
+    font: 70px/1 'Abril Fatface', serif;
     height: 1em;
 }
 
@@ -157,6 +157,10 @@ p:hover .tooltip {
 }
 p.money:hover .tooltip {
     top: -18px;
+}
+
+p.money {
+    align-items: flex-end;
 }
 
 .tooltip:after {
