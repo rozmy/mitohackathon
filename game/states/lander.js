@@ -57,7 +57,7 @@ Lander.prototype = {
         this.game.physics.box2d.gravity.x = wind;
     },
     create: function () {
-        this.game.world.setBounds(0, -10000, 20000, 20000);
+        this.game.world.setBounds(0, -500, 5500, 1000);
         this.game.stage.backgroundColor = '#FAFAE6';
 
         // Enable Box2D physics
@@ -112,45 +112,59 @@ Lander.prototype = {
         if (this.hasShip()) return;
         if (!this.game.Game.launchResearch(id)) return;
 
-        this.ship = this.game.add.sprite(200, -200, 'ship');
-        this.shipID = id;
+        var shipX = Math.round(Math.random()*(this.game.world.bounds.width-100))+50;
+        this.ship = this.game.add.sprite(shipX, -450, 'ship');
+        this.ship.originalID = id;
         this.game.physics.box2d.enable(this.ship);
         this.ship.body.setRectangle(81,84,0,0);
         this.ship.body.restitution = 0.2;
         this.ship.body.angularDampiong = 0.1;
         this.ship.body.angularVelocity = 1.2;
+        this.ship.fuel = 500;
         this.game.camera.follow(this.ship);
+
+        var shipVelocityDirection = (this.game.world.bounds.width/2 > shipX) ? 1 : -1;
+        this.ship.body.velocity.x = shipVelocityDirection * Math.round(Math.random()*200);
+        this.ship.body.velocity.y = Math.round(Math.random()*25);
 
         this.ship.body.setCategoryContactCallback(2, this.onDeployed, this);
         this.ship.body.setBodyContactCallback(this.base, this.onDestroyBase, this);
         for (var i=0; i<this.facilities.length; i++)
             this.ship.body.setBodyContactCallback(this.facilities[i], this.onDestroyFacility, this);
-
+    },
+    destroyObject: function(obj) {
+        // TODO: Explosion
+        obj.destroy();
     },
     onDeployed: function(body1, body2, fixture1, fixture2, begin) {
         if (!this.hasShip()) return;
 
         if (Math.abs(this.ship.angle) > 20) {
-            // TODO: Explosion.
-            this.ship.destroy();
+            console.log('Resource `' + this.ship.originalID + '` is destroyed because the angle was too high ('+Math.abs(this.ship.angle)+'>20).')
+            this.destroyObject(this.ship);
             this.ship = null;
             return;
         }
 
-        // TODO: Destroy if it arrives too fast.
+        var v = this.ship.body.velocity.y;
+        var m = this.ship.body.mass;
+        var momentum = m*v;
+
+        if (momentum > 250) {
+            console.log('Resource `' + this.ship.originalID + '` is destroyed because the impact speed was too high ('+ momentum +'>250).')
+            this.destroyObject(this.ship);
+            this.ship = null;
+            return;
+        }
 
         // TODO: Make it unmoveable after stops. These solutions aren't working.
-        // this.ship.m_linearVelocity.SetZero();
-        // this.ship.m_angularVelocity = 0.0;
-        // this.ship.setMass(999);
-        // this.ship.body.immovable = true;
         this.ship.body.velocity.x = 0;
         this.ship.body.velocity.y = 0;
         this.ship.body.fixedRotation = true;
         this.ship.body.static = true;
         this.facilities.push(this.ship);
+        this.game.Game.deployResearch(this.ship.originalID);
         this.ship = null;
-        this.game.Game.deployResearch(this.shipID);
     },
     onDestroyBase: function(body1, body2, fixture1, fixture2, begin) {
         this.game.state.start('gameover');
@@ -160,7 +174,13 @@ Lander.prototype = {
         this.ship.destroy();
         this.ship = null;
 
-        // TODO: Destroy body2 too.
+        for (var i=0; i<this.facilities.length; i++) {
+            var r = this.facilities[i];
+            if (body2 == r.body) {
+                this.game.Game.destroyResearch(r.originalID);
+                r.destroy();
+            }
+        }
     },
     hasShip: function() {
         return (this.ship != null)
@@ -169,18 +189,22 @@ Lander.prototype = {
         if (!this.hasShip())
             return;
 
-        if (this.cursors.left.isDown) {
+        if (this.cursors.left.isDown && this.ship.fuel > 0) {
+            this.ship.fuel--;
             this.ship.body.rotateLeft(100);
         }
-        else if (this.cursors.right.isDown) {
+        else if (this.cursors.right.isDown && this.ship.fuel > 0) {
+            this.ship.fuel--;
             this.ship.body.rotateRight(100);
         }
         else {
             this.ship.body.setZeroRotation();
         }
 
-        if (this.cursors.up.isDown)
+        if (this.cursors.up.isDown && this.ship.fuel > 0) {
+            this.ship.fuel--;
             this.ship.body.thrust(300);
+        }
     },
     render: function () {
         this.game.debug.box2dWorld();

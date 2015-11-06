@@ -1,9 +1,7 @@
 'use strict';
 
 var ResearchTree = function() {
-    var tech = [];
-
-    var electricity = [
+    this.electricity = [
         {
             id: 'P1',
             name: 'Solar powerplant',
@@ -33,7 +31,7 @@ var ResearchTree = function() {
         },
     ]
 
-    var oxygen = [
+    this.oxygen = [
         {
             id: 'O1',
             name: 'Oxygen generator',
@@ -63,7 +61,7 @@ var ResearchTree = function() {
         },
     ];
 
-    var water = [
+    this.water = [
         {
             id: 'W1',
             name: 'Water treatment',
@@ -87,7 +85,7 @@ var ResearchTree = function() {
         },
     ];
 
-    var food = [
+    this.food = [
         {
             id: 'F1',
             name: 'Farm',
@@ -138,7 +136,7 @@ var ResearchTree = function() {
         },
     ];
 
-    var groups = [electricity, food, water, oxygen, tech];
+    var groups = [this.electricity, this.food, this.water, this.oxygen];
     this.researches = [];
     for (var i=0; i<groups.length; i++)
         this.researches = this.researches.concat(groups[i]);
