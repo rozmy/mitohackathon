@@ -26,7 +26,7 @@ Stats.prototype = {
 
         this.launchBtn = document.querySelector('.launchButton');
         this.launchBtn.addEventListener('click', this.launchButton.bind(this));
-        
+
         this.pauseBtn = document.querySelector('.pauseButton');
         this.pauseBtn.addEventListener('click', this.pauseButton.bind(this));
     },
@@ -52,10 +52,16 @@ Stats.prototype = {
         this.money.textContent = this.game.Game.MONEY;
     },
     update: function() {
-        this.oxygen.textContent = this.game.Game.OXYGEN;
-        this.water.textContent = this.game.Game.WATER;
-        this.food.textContent = this.game.Game.FOOD;
-        this.electricity.textContent = this.game.Game.ELECTRICITY;
+        var maxAmount = 150;
+
+        // this.oxygen.textContent = this.game.Game.OXYGEN;
+        this.oxygen.style.width = Math.min(this.game.Game.OXYGEN * 100/maxAmount, 100) + '%';
+        // this.water.textContent = this.game.Game.WATER;
+        this.water.style.width = Math.min(this.game.Game.WATER * 100/maxAmount, 100) + '%';
+        // this.food.textContent = this.game.Game.FOOD;
+        this.food.style.width = Math.min(this.game.Game.FOOD * 100/maxAmount, 100) + '%';
+        // this.electricity.textContent = this.game.Game.ELECTRICITY;
+        this.electricity.style.width = Math.min(this.game.Game.ELECTRICITY * 100/maxAmount, 100) + '%';
         this.money.textContent = this.game.Game.MONEY;
         this.stuff.textContent = JSON.stringify(this.game.Game.researchControl.researches);
     },

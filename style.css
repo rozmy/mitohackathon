@@ -45,21 +45,19 @@ html, body, div, p {
     flex-direction: column;
 }
 
-.logo {
+.logo,
+.settings {
     flex-grow: 1;
 }
 
 .status,
-.viewSwitch,
-.settings {
+.viewSwitch {
     flex-grow: 0;
 }
 
-
-
 .collectMoneyButton,
-.stuffContainer {
-    display: none; TMP
+.status .stuffContainer {
+    display: none;
 }
 
 
@@ -69,6 +67,11 @@ body,
 input, button {
     font: 20px/1.3 BPmono, sans-serif;
     text-align: left;
+}
+
+button {
+    outline: none;
+    cursor: pointer;
 }
 
 .controlPanel,
@@ -86,7 +89,7 @@ input, button {
 .logo h1 {
     text-transform: uppercase;
     font-size: 1em;
-    margin: 30px auto;
+    margin: 20px auto;
     width: 130px;
     height: 130px;
     line-height: 130px;
@@ -97,19 +100,75 @@ input, button {
 }
 
 .status {
-    padding: 20px 0;
+    padding: 0 0 20px;
 }
 
 .status p {
-    padding: 5px 20px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    min-height: 24px;
+    position: relative;
+}
+
+.status .icon {
+    transform: scale(.6);
+    margin-right: 5px;
+}
+
+.status .amount {
+    flex-grow: 1;
+    height: 7px;
+    background: #373d37;
+    border-radius: 4px;
+}
+
+.status .amount span {
+    display: block;
+    background: white;
+    height: 100%;
+    border-radius: inherit;
+    vertical-align: middle;
 }
 
 .moneyAmount {
     font: 80px/1 'Abril Fatface', serif;
+    height: 1em;
 }
 
 .tooltip {
-    display: none;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    top: -10px;
+    left: 34px;
+    transform: translate(-50%);
+    background: #373d37;
+    border-radius: 6px;
+    padding: 10px 15px;
+    font-size: 14px;
+    transition: top .2s, opacity .2s;
+}
+
+p:hover .tooltip {
+    opacity: 1;
+    top: -40px;
+}
+p.money:hover .tooltip {
+    top: -18px;
+}
+
+.tooltip:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -6px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: #373d37 transparent transparent;
+    border-width: 6px 6px 0;
 }
 
 .viewSwitch {
@@ -148,6 +207,7 @@ input, button {
     display: flex;
     display: -webkit-flex;
     justify-content: space-between;
+    align-items: flex-end;
     padding-top: 20px;
     overflow: hidden;
 }
@@ -157,7 +217,6 @@ input, button {
     border: none;
     padding: 10px;
     font-size: 16px;
-    cursor: pointer;
 }
 
 
