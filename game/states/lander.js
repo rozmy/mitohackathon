@@ -118,15 +118,15 @@ Lander.prototype = {
 
         this.subpattern = this.game.add.tileSprite(this.groundVertices[0], this.groundVertices[1]+50, 5000, 1000, 'sub-pattern');
         this.subpattern.mask = submask;
-        
+
         this.graphics = graphics;
         this.ship = null;
         this.facilities = [];
-        
+
         this.emitter = this.game.add.emitter(0, 0, 40);
         this.emitter.makeParticles('thrust-particle');
         this.emitter.gravity = 120;
-        
+
         this.destroyedEmitter = this.game.add.emitter(0, 0, 250);
         this.destroyedEmitter.makeParticles('thrust-particle');
     },
@@ -142,18 +142,18 @@ Lander.prototype = {
         this.shipGUI = this.game.add.sprite(0, 0, 'landing-gui');
         this.shipGUI.anchor.x = 0.5;
         this.shipGUI.anchor.y = 0.5;
-        
+
         this.shipGUIDirection = this.game.add.sprite(0, 0, 'landing-gui-direction');
         this.shipGUIDirection.anchor.x = 0.5;
         this.shipGUIDirection.anchor.y = 0.5;
-        
+
         this.shipGUIWarning = this.game.add.sprite(0, 0, 'landing-gui-warning');
         this.shipGUIWarning.anchor.x = 0.5;
         this.shipGUIWarning.anchor.y = 0.5;
-        
+
         this.shipTrust = null;
 
-        this.shipFuel = this.game.add.text(0, 0, 500, 
+        this.shipFuel = this.game.add.text(0, 0, 500,
             { font: "13px Arial", fill: "blue", align: "right" });
 
         this.game.physics.box2d.enable(this.ship);
@@ -178,7 +178,7 @@ Lander.prototype = {
         this.shipGUI.destroy();
         this.shipGUIDirection.destroy();
         this.shipGUIWarning.destroy();
-        this.shipFuel.destroy(); 
+        this.shipFuel.destroy();
         if (this.shipTrust != null) this.shipTrust.destroy();
     },
     destroyObject: function(obj, gui) {
@@ -186,7 +186,7 @@ Lander.prototype = {
         this.destroyedEmitter.x = obj.body.x;
         this.destroyedEmitter.y = obj.body.y;
         this.destroyedEmitter.start(true, 1250, 500, 150);
-       
+
         var exp = this.game.add.sprite(obj.body.x, obj.body.y, 'explosion');
         exp.anchor.x = 0.5;
         exp.anchor.y = 0.5;
@@ -204,14 +204,14 @@ Lander.prototype = {
     isDeployable: function() {
         if (Math.abs(this.ship.angle) > 20)
             return false;
-        
+
         var v = this.ship.body.velocity.y;
         var m = this.ship.body.mass;
         var momentum = m*v;
 
         if (momentum > 250)
             return false;
-        
+
         return true;
     },
     onDeployed: function(body1, body2, fixture1, fixture2, begin) {
@@ -291,7 +291,7 @@ Lander.prototype = {
             this.emitter.z = this.ship.body.z - 1;
             this.emitter.setRotation(this.ship.body.angle-5, this.ship.body.angle+5);
             this.emitter.start(true, 500, null, 5);
-            
+
             if (this.shipTrust == null) {
                 this.shipTrust = this.game.add.sprite(0,0,'thrust');
                 this.shipTrust.anchor.x = 0.5;
@@ -306,7 +306,7 @@ Lander.prototype = {
             this.shipTrust.destroy();
             this.shipTrust = null;
         }
-        
+
         this.shipGUI.x = this.ship.body.x;
         this.shipGUI.y = this.ship.body.y;
         this.shipGUIDirection.x = this.ship.body.x;
@@ -320,6 +320,6 @@ Lander.prototype = {
         this.shipFuel.text = Math.round(this.ship.fuel);
     },
     render: function () {
-        // this.game.debug.box2dWorld();
+        this.game.debug.box2dWorld();
     }
 };

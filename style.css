@@ -240,11 +240,28 @@ p.money {
     border-right: 300px solid #fafae6;
     background: #fafae6;
     display: flex;
-    overflow: auto;
+    flex-direction: column;
     -webkit-transform: translate3d(200%,0,0);
     transform: translate3d(200%,0,0);
     transition: transform .5s;
     z-index: 50;
+}
+
+.techTree .wrapper {
+    overflow: auto;
+    flex: 1;
+    display: flex;
+    order: 2;
+}
+
+.stick {
+    background: #fafae6;
+    display: flex;
+    order: 1;
+}
+
+.stick h2 {
+    flex: 1;
 }
 
 .techTree.active {
@@ -253,19 +270,25 @@ p.money {
 
 .category {
     flex: 1;
-    padding: 1em;
+    padding: 0 1em 1em;
 }
 
-.category h2 {
+.techTree h2 {
     font-size: .6em;
     font-weight: normal;
     text-align: center;
+    padding: 2em 0;
+    margin: 0;
+}
+
+.category h2 {
+    display: none;
 }
 
 .category .spacer {
     width: 0;
     border-left: 1px dashed;
-    margin: 1em auto;
+    margin: 0 auto 1em;
     height: 200px;
     position: relative;
 }
