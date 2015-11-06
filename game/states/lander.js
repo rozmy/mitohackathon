@@ -46,6 +46,7 @@ Lander.prototype = {
         this.game.load.image('tiles2', '../assets/tilemaps/tiles/tiles2.png');
         this.game.load.image('ship', '../assets/sprites/ship01.png');
         this.game.load.image('pattern', '../assets/patterns/pattern1.png');
+        this.game.load.image('sub-pattern', '../assets/patterns/pattern9.png');
         this.game.load.image('base', '../assets/sprites/base.png');
         this.game.load.image('landing-gui', '../assets/sprites/langing-gui.png');
         this.game.load.image('landing-gui-direction', '../assets/sprites/langing-gui-direction.png');
@@ -91,6 +92,7 @@ Lander.prototype = {
 
         var graphics = this.game.add.graphics(0, 200);
         var mask = this.game.add.graphics(0, 200);
+        var submask = this.game.add.graphics(0, 200);
 
         // set a fill and line style
         // graphics.beginFill(0x000CFF);
@@ -99,16 +101,23 @@ Lander.prototype = {
         // draw a shape
         graphics.moveTo(this.groundVertices[0],1000);
         mask.moveTo(this.groundVertices[0],1000);
+        submask.moveTo(this.groundVertices[0],1000);
         var i = 0;
         for (i = 0; i < this.groundVertices.length; i+=2) {
             graphics.lineTo(this.groundVertices[i], this.groundVertices[i+1]);
             mask.lineTo(this.groundVertices[i], this.groundVertices[i+1]);
+            submask.lineTo(this.groundVertices[i], this.groundVertices[i+1]+50);
         }
         graphics.lineTo(this.groundVertices[i-2],1000);
         mask.lineTo(this.groundVertices[i-2],1000);
+        submask.lineTo(this.groundVertices[i-2]+50,1000);
 
-        this.pattern = this.game.add.tileSprite(this.groundVertices[0], this.groundVertices[1], 1000, 1000, 'pattern');
+        this.pattern = this.game.add.tileSprite(this.groundVertices[0], this.groundVertices[1], 5000, 1000, 'pattern');
         this.pattern.mask = mask;
+
+        this.subpattern = this.game.add.tileSprite(this.groundVertices[0], this.groundVertices[1]+50, 5000, 1000, 'sub-pattern');
+        this.subpattern.mask = submask;
+        
         this.graphics = graphics;
         this.ship = null;
         this.facilities = [];
@@ -116,17 +125,17 @@ Lander.prototype = {
         this.emitter = this.game.add.emitter(0, 0, 40);
         this.emitter.makeParticles('thrust-particle');
         this.emitter.gravity = 120;
+        
+        this.destroyedEmitter = this.game.add.emitter(0, 0, 250);
+        this.destroyedEmitter.makeParticles('thrust-particle');
     },
     launch: function(id) {
         if (this.hasShip()) return;
         if (!this.game.Game.launchResearch(id)) return;
 
-        // this.shipGroup = this.game.add.group();
-
         var shipX = Math.round(Math.random()*(this.game.world.bounds.width-100))+50;
         this.ship = this.game.add.sprite(shipX, -450, 'ship');
         this.ship.originalID = id;
-        // this.shipGroup.add(this.ship);
 
         this.shipGUI = this.game.add.sprite(0, 0, 'landing-gui');
         this.shipGUI.anchor.x = 0.5;
@@ -171,8 +180,13 @@ Lander.prototype = {
     },
     destroyObject: function(obj) {
         // TODO: Explosion
+        this.destroyedEmitter.x = obj.body.x;
+        this.destroyedEmitter.y = obj.body.y;
+        this.destroyedEmitter.start(true, 1250, 500, 150);
         obj.destroy();
         this.destroyGUI();
+        
+        // this.game.camera.follow(this.base);
     },
     isDeployable: function() {
         if (Math.abs(this.ship.angle) > 20)
@@ -208,7 +222,6 @@ Lander.prototype = {
             return;
         }
 
-        // TODO: Make it unmoveable after stops. These solutions aren't working.
         this.ship.body.velocity.x = 0;
         this.ship.body.velocity.y = 0;
         this.ship.body.z = 1000;
