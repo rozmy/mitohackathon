@@ -1,0 +1,139 @@
+/*
+#000cff kek
+#fafae6 sarga
+#373d37 szurke
+*/
+
+@font-face {
+    font-family: 'BPmono';
+    src: url('assets/fonts/bpmono-webfont.eot');
+    src: url('assets/fonts/bpmono-webfont.eot?#iefix') format('embedded-opentype'),
+         url('assets/fonts/bpmono-webfont.woff2') format('woff2'),
+         url('assets/fonts/bpmono-webfont.woff') format('woff'),
+         url('assets/fonts/bpmono-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BPmono';
+    src: url('assets/fonts/bpmonobold-webfont.eot');
+    src: url('assets/fonts/bpmonobold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('assets/fonts/bpmonobold-webfont.woff2') format('woff2'),
+         url('assets/fonts/bpmonobold-webfont.woff') format('woff'),
+         url('assets/fonts/bpmonobold-webfont.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+html, body, div, p, section, figure {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: 20px/1.6 BPmono, sans-serif;
+    background: #fafae6 url(assets/landing/planets.png) no-repeat 50% 2em;
+    color: #373d37;
+    text-align: center;
+}
+
+.wrap {
+    max-width: 700px;
+    padding: 0 1em;
+    margin: 0 auto;
+}
+
+section {
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 1.5em 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+h1 {
+    font: 4em/1 'Abril Fatface', serif;
+    color: #000cff;
+    position: relative;
+}
+
+p {
+    margin-bottom: 2em;
+}
+
+a {
+    color: #373d37;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: inset 0 -10px 0 -5px white;
+    line-height: 1;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+small {
+    font-size: .25em;
+    position: absolute;
+    bottom: -1em;
+    right: 3em;
+}
+
+.source {
+    font-size: .75em;
+    font-weight: bold;
+}
+
+.button {
+    display: inline-block;
+    padding: 1em 2.5em;
+    background: white;
+    color: #000cff;
+    text-decoration: none;
+    border: 4px solid;
+    font-weight: bold;
+    margin-top: 2.5em;
+}
+
+.icons {
+    width: 205px;
+    height: 22px;
+    margin: 0 auto;
+    background: url(assets/landing/resources.png) no-repeat;
+}
+
+.about {
+    background: url(assets/landing/wiggly-stuff.jpg) no-repeat right center;
+    background-size: 420px 320px;
+}
+
+.credits {
+    max-width: 1400px;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: row;
+}
+
+.credits h1 {
+    width: 100%;
+}
+
+.credits figure {
+    padding: 1em;
+    flex: 1;
+    min-width: 200px;
+}
+
+.credits img {
+    margin-bottom: 2em;
+    width: 50%;
+}
+
+.credits p {
+    margin: 0;
+}
