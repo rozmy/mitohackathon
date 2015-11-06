@@ -89,8 +89,8 @@ button {
 
 .logo h1 {
     margin: 20px auto;
-    width: 130px;
-    height: 130px;
+    width: 65%;
+    height: 175px;
     background: url(assets/gui/menu-gamelogo.png) no-repeat;
     background-size: contain;
     text-align: left;

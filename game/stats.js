@@ -64,6 +64,7 @@ Stats.prototype = {
         this.techTechView.classList.add('active');
     },
     onRestartClicked: function() {
+        location.reload();
         this.game.state.start('lander');
         document.querySelector('.gameOver').classList.remove('active');
     },

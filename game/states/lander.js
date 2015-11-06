@@ -184,7 +184,7 @@ Lander.prototype = {
         this.ship.body.velocity.x = shipVelocityDirection * Math.round(Math.random()*200);
         this.ship.body.velocity.y = Math.round(Math.random()*25);
 
-        this.ship.body.setCategoryContactCallback(2, this.onDeployed, this);
+        this.ship.body.setCategoryPostsolveCallback(2, this.onDeployed, this);
         this.ship.body.setBodyContactCallback(this.base, this.onDestroyBase, this);
         for (var i=0; i<this.facilities.length; i++)
             this.ship.body.setBodyContactCallback(this.facilities[i], this.onDestroyFacility, this);
@@ -253,7 +253,20 @@ Lander.prototype = {
             this.ship = null;
             return;
         }
-
+        
+        console.log(body1, body2);
+        if (this.ship.prevTouchSurface != null) {
+            if (this.ship.prevTouchSurface.x.toFixed(2) == this.ship.body.x.toFixed(2) && this.ship.prevTouchSurface.y.toFixed(2) == this.ship.body.y.toFixed(2)) {
+                console.log(new Date()-this.ship.prevTouchSurface.ts)
+                if ( new Date()-this.ship.prevTouchSurface.ts >= 250 ) {
+                    this.deployObject();
+                    return;
+                }
+            }
+        }
+        this.ship.prevTouchSurface = {x: this.ship.body.x, y: this.ship.body.y, ts: new Date()}
+    },
+    deployObject: function() {
         this.ship.body.velocity.x = 0;
         this.ship.body.velocity.y = 0;
         this.ship.body.z = 1000;
@@ -262,7 +275,7 @@ Lander.prototype = {
 
         var iconEmitter = this.game.add.emitter(0, 0, 1),
             iconType = this.ship.originalID[0];
-        
+
         iconEmitter.makeParticles('resource-'+iconType);
         iconEmitter.x = this.ship.body.x;
         iconEmitter.y = this.ship.body.y;
@@ -272,7 +285,7 @@ Lander.prototype = {
         iconEmitter.start(false, 4000, 3);
 
         this.ship.currentProduction = iconEmitter;
-        
+
         this.facilities.push(this.ship);
         this.game.Game.deployResearch(this.ship.originalID);
         this.ship = null;

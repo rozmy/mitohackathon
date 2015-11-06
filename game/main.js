@@ -5,9 +5,7 @@ window.onload = function () {
     var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'phasertest');
 
     // Game States
-    game.state.add('gameover', GameOver);
     game.state.add('lander', Lander);
-    game.state.add('stats', Stats);
 
     game.Game = new Game(game);
     game.audioManager = AudioManager(game);
