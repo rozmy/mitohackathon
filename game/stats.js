@@ -31,6 +31,9 @@ Stats.prototype = {
         for (var i = 0; i < this.launchBtns.length; ++i) {
             this.launchBtns[i].addEventListener('click', this.launchButton.bind(this));
         }
+        
+        this.pauseBtn = document.querySelector('.pauseButton');
+        this.pauseBtn.addEventListener('click', this.pauseButton.bind(this));
     },
     pauseButton: function(event) {
         if (!this.game.Game.isPaused()) {
@@ -85,7 +88,7 @@ Stats.prototype = {
         this.food.style.width = Math.min(this.game.Game.FOOD * 100/maxAmount, 100) + '%';
         // this.electricity.textContent = this.game.Game.ELECTRICITY;
         this.electricity.style.width = Math.min(this.game.Game.ELECTRICITY * 100/maxAmount, 100) + '%';
-        this.money.textContent = ('00000'+this.game.Game.MONEY).slice(-5);
+        this.money.textContent = this.game.Game.MONEY;
         this.stuff.textContent = JSON.stringify(this.game.Game.researchControl.researches);
         
         this.refreshTechItem();
