@@ -139,5 +139,6 @@ Game.prototype.resume = function () {
 };
 
 Game.prototype.leave = function () {
-    this.game.state.start('gameover');
+    // this.game.state.start('gameover');
+    document.querySelector('.gameOver').classList.add('active');
 };

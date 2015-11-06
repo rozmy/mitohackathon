@@ -257,7 +257,7 @@ Lander.prototype = {
         this.destroyGUI();
     },
     onDestroyBase: function(body1, body2, fixture1, fixture2, begin) {
-        this.game.state.start('gameover');
+        this.game.Game.leave();
     },
     onDestroyFacility: function(body1, body2, fixture1, fixture2, begin) {
         if (!this.hasShip()) return;
