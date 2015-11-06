@@ -133,7 +133,7 @@ var ResearchTree = function() {
         {
             id: 'F7',
             name: 'Bunny farm',
-            resource: {f: 5.0, w: -1.0, o: -1.0, e: -2.0},
+            resource: {f: 6.0, w: -1.0, o: -1.0, e: -2.0},
             price: 80,
             img: '03',
         },

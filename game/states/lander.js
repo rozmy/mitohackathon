@@ -78,6 +78,7 @@ Lander.prototype = {
         if (wind>30) wind = 30;
         if (wind<-30) wind = -30;
         this.game.physics.box2d.gravity.x = wind;
+        this.rainEmitter.angle = wind;
     },
     create: function () {
         this.game.world.setBounds(0, -500, 5500, 1000);
@@ -145,6 +146,18 @@ Lander.prototype = {
 
         this.destroyedEmitter = this.game.add.emitter(0, 0, 250);
         this.destroyedEmitter.makeParticles('thrust-particle');
+        
+        this.rainEmitter = this.game.add.emitter(this.game.world.centerX, -500, 0);
+        this.rainEmitter.width = this.game.world.width;
+        this.rainEmitter.angle = wind;
+        this.rainEmitter.makeParticles('thrust-particle');
+        this.rainEmitter.minParticleScale = 0.3;
+        this.rainEmitter.maxParticleScale = 1.0;
+        this.rainEmitter.setYSpeed(300, 500);
+        this.rainEmitter.setXSpeed(-5, 5);
+        this.rainEmitter.minRotation = 0;
+        this.rainEmitter.maxRotation = 0;
+        this.rainEmitter.start(false, 1600, 5, 0);
     },
     launch: function(id) {
         if (this.hasShip()) return;
