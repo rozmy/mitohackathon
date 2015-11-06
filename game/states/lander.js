@@ -221,7 +221,7 @@ Lander.prototype = {
         if (destroy_gui) this.destroyGUI();
     },
     isDeployable: function() {
-        if (Math.abs(this.ship.angle) > 20)
+        if (Math.abs(this.ship.angle) > 40)
             return false;
 
         var v = this.ship.body.velocity.y;
@@ -235,8 +235,9 @@ Lander.prototype = {
     },
     onDeployed: function(body1, body2, fixture1, fixture2, begin) {
         if (!this.hasShip()) return;
+        if (body1 != this.ship.body) return;
 
-        if (Math.abs(this.ship.angle) > 20) {
+        if (Math.abs(this.ship.angle) > 40) {
             console.log('Resource `' + this.ship.originalID + '` is destroyed because the angle was too high ('+Math.abs(this.ship.angle)+'>20).')
             this.destroyObject(this.ship);
             this.ship = null;
@@ -254,17 +255,16 @@ Lander.prototype = {
             return;
         }
         
-        console.log(body1, body2);
+        // Alternate solution: if (this.ship.body.velocity.x == 0 && this.ship.body.velocity.y == 0) this.deployObject()
         if (this.ship.prevTouchSurface != null) {
-            if (this.ship.prevTouchSurface.x.toFixed(2) == this.ship.body.x.toFixed(2) && this.ship.prevTouchSurface.y.toFixed(2) == this.ship.body.y.toFixed(2)) {
-                console.log(new Date()-this.ship.prevTouchSurface.ts)
-                if ( new Date()-this.ship.prevTouchSurface.ts >= 250 ) {
+            if (this.ship.prevTouchSurface.x.toFixed(2) == this.ship.body.x.toFixed(2) && this.ship.prevTouchSurface.y.toFixed(2) == this.ship.body.y.toFixed(2) && this.ship.prevTouchSurface.a.toFixed(1) == this.ship.body.angle.toFixed(1)) {
+                if ( new Date()-this.ship.prevTouchSurface.ts >= 15 ) {
                     this.deployObject();
                     return;
                 }
             }
         }
-        this.ship.prevTouchSurface = {x: this.ship.body.x, y: this.ship.body.y, ts: new Date()}
+        this.ship.prevTouchSurface = {a: this.ship.body.angle, x: this.ship.body.x, y: this.ship.body.y, ts: new Date()}
     },
     deployObject: function() {
         this.ship.body.velocity.x = 0;
