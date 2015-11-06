@@ -53,6 +53,7 @@ Lander.prototype = {
         this.game.load.image('landing-gui-warning', '../assets/sprites/langing-gui-warning.png');
         this.game.load.image('thrust-particle', '../assets/sprites/particle.png');
         this.game.load.image('thrust', '../assets/sprites/thrust.png');
+        this.game.load.spritesheet('explosion', '../assets/sprites/explosion-200.png', 200, 200, 14);
     },
     changeWind: function() {
         var wind_diff = [-1,1][Math.round(Math.random())] * Math.round(Math.random()*5),
@@ -133,7 +134,8 @@ Lander.prototype = {
         if (this.hasShip()) return;
         if (!this.game.Game.launchResearch(id)) return;
 
-        var shipX = Math.round(Math.random()*(this.game.world.bounds.width-100))+50;
+        // var shipX = Math.round(Math.random()*(this.game.world.bounds.width-100))+50;
+        var shipX = 50;
         this.ship = this.game.add.sprite(shipX, -450, 'ship');
         this.ship.originalID = id;
 
@@ -160,6 +162,7 @@ Lander.prototype = {
         this.ship.body.angularDampiong = 0.1;
         this.ship.body.angularVelocity = 1.2;
         this.ship.fuel = 500;
+
         this.game.camera.follow(this.ship);
 
         var shipVelocityDirection = (this.game.world.bounds.width/2 > shipX) ? 1 : -1;
@@ -178,15 +181,25 @@ Lander.prototype = {
         this.shipFuel.destroy(); 
         if (this.shipTrust != null) this.shipTrust.destroy();
     },
-    destroyObject: function(obj) {
-        // TODO: Explosion
+    destroyObject: function(obj, gui) {
+        var destroy_gui = gui || true;
         this.destroyedEmitter.x = obj.body.x;
         this.destroyedEmitter.y = obj.body.y;
         this.destroyedEmitter.start(true, 1250, 500, 150);
-        obj.destroy();
-        this.destroyGUI();
-        
-        // this.game.camera.follow(this.base);
+       
+        var exp = this.game.add.sprite(obj.body.x, obj.body.y, 'explosion');
+        exp.anchor.x = 0.5;
+        exp.anchor.y = 0.5;
+        exp.animations.add('die');
+        var that = this;
+        exp.play('die', 15, false).onComplete.add( function() {
+            exp.exists = false;
+            exp.visible = false;
+            obj.destroy();
+            that.game.camera.follow(null);
+            that.game.add.tween(that.game.camera).to( {x: that.base.body.x - (that.game.camera.width / 2), y: that.base.body.y - (that.game.camera.height / 2) }, 750, Phaser.Easing.Quadratic.InOut, true);
+        }, exp);
+        if (destroy_gui) this.destroyGUI();
     },
     isDeployable: function() {
         if (Math.abs(this.ship.angle) > 20)
@@ -237,14 +250,16 @@ Lander.prototype = {
     },
     onDestroyFacility: function(body1, body2, fixture1, fixture2, begin) {
         if (!this.hasShip()) return;
-        this.ship.destroy();
+        this.destroyObject(this.ship);
         this.ship = null;
 
         for (var i=0; i<this.facilities.length; i++) {
             var r = this.facilities[i];
             if (body2 == r.body) {
                 this.game.Game.destroyResearch(r.originalID);
+                this.destroyObject(r);
                 r.destroy();
+                break;
             }
         }
     },
