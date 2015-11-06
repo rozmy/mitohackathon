@@ -9,6 +9,8 @@ Stats.prototype = {
 
         this.collectMoneyButton = document.querySelector('.moneyClicker');
         this.collectMoneyButton.addEventListener('click', this.collectMoney.bind(this));
+        this.restartButton = document.querySelector('.restartButton');
+        this.restartButton.addEventListener('click', this.onRestartClicked.bind(this));
         this.switchToPlanetButton = document.querySelector('.viewSwitchToPlanet');
         this.switchToPlanetButton.addEventListener('click', this.onSwitchToPlanet.bind(this));
         this.switchToTechButton = document.querySelector('.viewSwitchToTech');
@@ -21,7 +23,6 @@ Stats.prototype = {
         this.food = document.querySelector('.foodAmount');
         this.electricity = document.querySelector('.electricityAmount');
         this.money = document.querySelector('.moneyAmount');
-        this.stuff = document.querySelector('.stuffAmount');
 
         this.startBtns = document.querySelectorAll('.startResearchButton');
         for (var i = 0; i < this.startBtns.length; ++i) {
@@ -62,6 +63,10 @@ Stats.prototype = {
         this.switchToTechButton.classList.add('active');
         this.techTechView.classList.add('active');
     },
+    onRestartClicked: function() {
+        this.game.state.start('lander');
+        document.querySelector('.gameOver').classList.remove('active');
+    },
     collectMoney: function() {
         this.game.Game.collect();
         this.money.textContent = ('00000'+this.game.Game.MONEY).slice(-5);
@@ -89,7 +94,6 @@ Stats.prototype = {
         // this.electricity.textContent = this.game.Game.ELECTRICITY;
         this.electricity.style.width = Math.min(this.game.Game.ELECTRICITY * 100/maxAmount, 100) + '%';
         this.money.textContent = ('00000'+this.game.Game.MONEY).slice(-5);
-        this.stuff.textContent = JSON.stringify(this.game.Game.researchControl.researches);
 
         this.refreshTechItem();
     }
