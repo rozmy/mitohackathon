@@ -47,12 +47,12 @@ Stats.prototype = {
     },
     // TODO move to resource sg
     startResearchButton: function(event) {
-        this.game.Game.startResearch(event.currentTarget.dataset.resId);
+        this.game.Game.startResearch(event.currentTarget.parentNode.id);
         event.currentTarget.parentNode.classList.add('building');
     },
     launchButton: function(event) {
         this.onSwitchToPlanet();
-        this.game.LanderState.launch(event.currentTarget.dataset.resId);
+        this.game.LanderState.launch(event.currentTarget.parentNode.id);
         event.currentTarget.parentNode.classList.remove('launchable');
     },
     stopResearchButton: function() {
