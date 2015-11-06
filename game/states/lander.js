@@ -47,6 +47,9 @@ Lander.prototype = {
         this.game.load.image('ship', '../assets/sprites/ship01.png');
         this.game.load.image('pattern', '../assets/patterns/pattern1.png');
         this.game.load.image('base', '../assets/sprites/base.png');
+        this.game.load.image('landing-gui', '../assets/sprites/langing-gui.png');
+        this.game.load.image('landing-gui-direction', '../assets/sprites/langing-gui-direction.png');
+        this.game.load.image('landing-gui-warning', '../assets/sprites/langing-gui-warning.png');
     },
     changeWind: function() {
         var wind_diff = [-1,1][Math.round(Math.random())] * Math.round(Math.random()*5),
@@ -112,9 +115,28 @@ Lander.prototype = {
         if (this.hasShip()) return;
         if (!this.game.Game.launchResearch(id)) return;
 
+        // this.shipGroup = this.game.add.group();
+
         var shipX = Math.round(Math.random()*(this.game.world.bounds.width-100))+50;
         this.ship = this.game.add.sprite(shipX, -450, 'ship');
         this.ship.originalID = id;
+        // this.shipGroup.add(this.ship);
+
+        this.shipGUI = this.game.add.sprite(0, 0, 'landing-gui');
+        this.shipGUI.anchor.x = 0.5;
+        this.shipGUI.anchor.y = 0.5;
+        
+        this.shipGUIDirection = this.game.add.sprite(0, 0, 'landing-gui-direction');
+        this.shipGUIDirection.anchor.x = 0.5;
+        this.shipGUIDirection.anchor.y = 0.5;
+        
+        this.shipGUIWarning = this.game.add.sprite(0, 0, 'landing-gui-warning');
+        this.shipGUIWarning.anchor.x = 0.5;
+        this.shipGUIWarning.anchor.y = 0.5;
+        
+        this.shipFuel = this.game.add.text(0, 0, 500, 
+            { font: "13px Arial", fill: "blue", align: "right" });
+
         this.game.physics.box2d.enable(this.ship);
         this.ship.body.setRectangle(81,84,0,0);
         this.ship.body.restitution = 0.2;
@@ -132,9 +154,29 @@ Lander.prototype = {
         for (var i=0; i<this.facilities.length; i++)
             this.ship.body.setBodyContactCallback(this.facilities[i], this.onDestroyFacility, this);
     },
+    destroyGUI: function() {
+        this.shipGUI.destroy();
+        this.shipGUIDirection.destroy();
+        this.shipGUIWarning.destroy();
+        this.shipFuel.destroy(); 
+    },
     destroyObject: function(obj) {
         // TODO: Explosion
         obj.destroy();
+        this.destroyGUI();
+    },
+    isDeployable: function() {
+        if (Math.abs(this.ship.angle) > 20)
+            return false;
+        
+        var v = this.ship.body.velocity.y;
+        var m = this.ship.body.mass;
+        var momentum = m*v;
+
+        if (momentum > 250)
+            return false;
+        
+        return true;
     },
     onDeployed: function(body1, body2, fixture1, fixture2, begin) {
         if (!this.hasShip()) return;
@@ -165,6 +207,7 @@ Lander.prototype = {
         this.facilities.push(this.ship);
         this.game.Game.deployResearch(this.ship.originalID);
         this.ship = null;
+        this.destroyGUI();
     },
     onDestroyBase: function(body1, body2, fixture1, fixture2, begin) {
         this.game.state.start('gameover');
@@ -205,6 +248,18 @@ Lander.prototype = {
             this.ship.fuel--;
             this.ship.body.thrust(300);
         }
+        
+        this.shipGUI.x = this.ship.body.x;
+        this.shipGUI.y = this.ship.body.y;
+        this.shipGUIDirection.x = this.ship.body.x;
+        this.shipGUIDirection.y = this.ship.body.y;
+        this.shipGUIWarning.x = this.ship.body.x;
+        this.shipGUIWarning.y = this.ship.body.y;
+        this.shipGUIWarning.visible = !this.isDeployable();
+        this.shipGUIDirection.angle = this.ship.body.angle;
+        this.shipFuel.x = this.shipGUI.x - 185;
+        this.shipFuel.y = this.shipGUI.y + 15;
+        this.shipFuel.text = Math.round(this.ship.fuel);
     },
     render: function () {
         this.game.debug.box2dWorld();
