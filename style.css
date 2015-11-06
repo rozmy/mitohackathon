@@ -43,6 +43,7 @@ html, body, div, p {
     display: -webkit-flex;
     -webkit-flex-direction: column;
     flex-direction: column;
+    z-index: 100;
 }
 
 .logo,
@@ -223,4 +224,82 @@ p.money:hover .tooltip {
 #sc-widget {
     position: absolute;
     left: 110%;
+}
+
+/* TECHTREE */
+
+.techTree {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-right: 300px solid #fafae6;
+    background: #fafae6;
+    display: flex;
+    overflow: auto;
+    -webkit-transform: translate3d(200%,0,0);
+    transform: translate3d(200%,0,0);
+    transition: transform .5s;
+    z-index: 50;
+}
+
+.techTree.active {
+    transform: translate3d(0%,0,0);
+}
+
+.category {
+    flex: 1;
+    padding: 1em;
+}
+
+.category h2 {
+    font-size: .6em;
+    font-weight: normal;
+    text-align: center;
+}
+
+.category .spacer {
+    width: 0;
+    border-left: 1px dashed;
+    margin: 1em auto;
+    height: 200px;
+    position: relative;
+}
+
+.category .spacer:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: -4px;
+    height: 8px;
+    width: 6px;
+    border: 1px solid;
+    border-radius: 4px;
+}
+
+.techItem {
+    background: white;
+    padding: 1em;
+    margin: 2em 0;
+}
+
+.techItem h1 {
+    font: 26px/1 'Abril Fatface', serif;
+    padding-bottom: .5em;
+    border-bottom: 8px solid #000cff;
+}
+
+.techItem .description {
+    font-size: 14px;
+    margin-bottom: 1em;
+}
+
+.techItem button {
+    width: 100%;
+    color: #000cff;
+    border: 3px solid;
+    background: white;
+    font-size: 16px;
+    padding: 1em;
 }

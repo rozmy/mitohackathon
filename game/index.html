@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="../icons.css">
 
     </head>
-    <body>
+    <body class="">
         <div class="controlPanel">
             <div class="logo">
                 <h1>Logo</h1>
@@ -33,8 +33,8 @@
                 <p class="stuffContainer">stuff: <span class="stuffAmount"></span></p>
                 <button class="collectMoneyButton">collect money</button>
             </div>
-            <button class="active viewSwitch"><span>Planet view</span></button>
-            <button class="viewSwitch"><span>Tech tree</span></button>
+            <button class="active viewSwitch viewSwitchToPlanet" data-view="planet"><span>Planet view</span></button>
+            <button class="viewSwitch viewSwitchToTech" data-view="tech"><span>Tech tree</span></button>
             <div class="settings">
                 <button class="pauseButton"><span class="icon icon-menu-pause"></span> Pause</button>
                 <button class="muteButton"><span class="icon icon-menu-volume-off"></span></button>
@@ -57,12 +57,224 @@
 
         <div class="techTree">
             <!-- TODO render from research tree -->
-            <p><button class="startResearchButton" data-res-id="P1">Solar Powerplant</button></p>
-            <p><button class="startResearchButton" data-res-id="P2" disabled>Advanced solar cells</button></p>
-            <p><button class="stopResearchButton">stop research</button></p>
+        <!--     <p><button class="startResearchButton" data-res-id="P1">Solar Powerplant</button></p>
+        <p><button class="startResearchButton" data-res-id="P2" disabled>Advanced solar cells</button></p>
+        <p><button class="stopResearchButton">stop research</button></p>
 
-            <p><button class="deployButton">Deploy</button></p>
-            <p><button class="launchButton">Launch</button></p>
+        <p><button class="deployButton">Deploy</button></p>
+        <p><button class="launchButton">Launch</button></p> -->
+
+            <div class="category">
+                <h2>Oxygen</h2>
+                <div class="spacer"></div>
+
+                <div class="techItem">
+                    <img src="" alt="" class="ship">
+                    <h1>Solar Powerplant</h1>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td class="increase"></td>
+                            <td class="decrease"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <p class="description">
+                            Basic solar cells provide some power, but they’re offlie during night.
+                        </p>
+                        <button class="startResearchButton" data-res-id="P1">Build <span class="price">$100</span></button>
+                    </table>
+                </div>
+
+
+                <div class="techItem">
+                    <img src="" alt="" class="ship">
+                    <h1>Solar Powerplant</h1>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td class="increase"></td>
+                            <td class="decrease"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <p class="description">
+                            Basic solar cells provide some power, but they’re offlie during night.
+                        </p>
+                        <button class="build">Build <span class="price">$100</span></button>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="category">
+                <h2>Water</h2>
+                <div class="spacer"></div>
+
+                <div class="techItem">
+                    <img src="" alt="" class="ship">
+                    <h1>Solar Powerplant</h1>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td class="increase"></td>
+                            <td class="decrease"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <p class="description">
+                            Basic solar cells provide some power, but they’re offlie during night.
+                        </p>
+                        <button class="build">Build <span class="price">$100</span></button>
+                    </table>
+                </div>
+
+
+                <div class="techItem">
+                    <img src="" alt="" class="ship">
+                    <h1>Solar Powerplant</h1>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td class="increase"></td>
+                            <td class="decrease"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <p class="description">
+                            Basic solar cells provide some power, but they’re offlie during night.
+                        </p>
+                        <button class="build">Build <span class="price">$100</span></button>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="category">
+                <h2>Food</h2>
+                <div class="spacer"></div>
+
+                <div class="techItem">
+                    <img src="" alt="" class="ship">
+                    <h1>Solar Powerplant</h1>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td class="increase"></td>
+                            <td class="decrease"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <p class="description">
+                            Basic solar cells provide some power, but they’re offlie during night.
+                        </p>
+                        <button class="build">Build <span class="price">$100</span></button>
+                    </table>
+                </div>
+
+
+                <div class="techItem">
+                    <img src="" alt="" class="ship">
+                    <h1>Solar Powerplant</h1>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td class="increase"></td>
+                            <td class="decrease"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <p class="description">
+                            Basic solar cells provide some power, but they’re offlie during night.
+                        </p>
+                        <button class="build">Build <span class="price">$100</span></button>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="category">
+                <h2>Electricity</h2>
+                <div class="spacer"></div>
+
+                <div class="techItem">
+                    <img src="" alt="" class="ship">
+                    <h1>Solar Powerplant</h1>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td class="increase"></td>
+                            <td class="decrease"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <p class="description">
+                            Basic solar cells provide some power, but they’re offlie during night.
+                        </p>
+                        <button class="build">Build <span class="price">$100</span></button>
+                    </table>
+                </div>
+
+
+                <div class="techItem">
+                    <img src="" alt="" class="ship">
+                    <h1>Solar Powerplant</h1>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td class="increase"></td>
+                            <td class="decrease"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <p class="description">
+                            Basic solar cells provide some power, but they’re offlie during night.
+                        </p>
+                        <button class="build">Build <span class="price">$100</span></button>
+                    </table>
+                </div>
+
+            </div>
         </div>
     </body>
 </html>
