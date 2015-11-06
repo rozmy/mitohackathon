@@ -6,6 +6,7 @@ var ResearchTree = function() {
             id: 'P1',
             name: 'Solar powerplant',
             resource: {o: -1, e: 1},
+            img: '08',
             price: 3
         },
         {
@@ -13,21 +14,21 @@ var ResearchTree = function() {
             name: 'Advanced solar cells',
             resource: {o: -1, e: 3},
             price: 40,
-            required: ['P1']
+            img: '08',
         },
         {
             id: 'P3',
             name: 'Wind turbines',
             resource: {e: 4},
             price: 80,
-            required: ['P2']
+            img: '12',
         },
         {
             id: 'P4',
             name: 'Fusion powerplant',
             resource: {e: 6},
             price: 160,
-            required: ['P3']
+            img: '11',
         },
     ]
 
@@ -36,6 +37,7 @@ var ResearchTree = function() {
             id: 'O1',
             name: 'Oxygen generator',
             resource: {o: 1},
+            img: '01',
             price: 3
         },
         {
@@ -43,21 +45,21 @@ var ResearchTree = function() {
             name: 'Cyanobacteria',
             resource: {o: 2, w: -1},
             price: 16,
-            required: ['O1']
+            img: '04',
         },
         {
             id: 'O3',
             name: 'Stromatolite',
-            resource: {o: 3, w: -1},
+            resource: {o: 3, w: -1, e: -1},
             price: 32,
-            required: ['O2']
+            img: '07',
         },
         {
             id: 'O4',
             name: 'Cryogenic oxygen plant',
-            resource: {o: 5, w: -2},
+            resource: {o: 5, w: -2, e: -1},
             price: 64,
-            required: ['O3']
+            img: '09',
         },
     ];
 
@@ -67,21 +69,21 @@ var ResearchTree = function() {
             name: 'Water treatment',
             resource: {w: 1},
             price: 3,
-            required: ['O1']
+            img: '10',
         },
         {
             id: 'W2',
             name: 'Disinfection plant',
             resource: {w: 2},
             price: 24,
-            required: ['W1']
+            img: '02',
         },
         {
             id: 'W3',
             name: 'hydrogen&oxygen=water',
-            resource: {o: -2, w: 3},
-            price: 40,
-            required: ['W2']
+            resource: {o: -2, w: 2},
+            price: 8,
+            img: '13',
         },
     ];
 
@@ -90,6 +92,7 @@ var ResearchTree = function() {
             id: 'F1',
             name: 'Farm',
             resource: {f: 1, o: -1, w: -1},
+            img: '03',
             price: 3
         },
         {
@@ -97,42 +100,42 @@ var ResearchTree = function() {
             name: 'Rice',
             resource: {f: 2, w: -2},
             price: 16,
-            required: ['F1']
+            img: '06',
         },
         {
             id: 'F3',
             name: 'Spice',
             resource: {f: 2, e: -1, o: -1},
             price: 16,
-            required: ['F1']
+            img: '06',
         },
         {
             id: 'F4',
             name: 'Potato',
             resource: {f: 2, w: -1, o: -1},
             price: 16,
-            required: ['F1']
+            img: '06',
         },
         {
             id: 'F5',
             name: 'Cereal',
             resource: {f: 3, w: -1, o: -1},
             price: 40,
-            // required: ['F1']
+            img: '06',
         },
         {
             id: 'F6',
             name: 'Fish tank',
             resource: {f: 5, w: -3, o: -1},
             price: 80,
-            // required: ['F1']
+            img: '09',
         },
         {
             id: 'F7',
             name: 'Bunny farm',
             resource: {f: 5, w: -1, o: -1, e: -2},
             price: 80,
-            required: ['F5']
+            img: '03',
         },
     ];
 
@@ -189,7 +192,7 @@ Research.prototype = {
     },
     
     finish: function() {
-        this.priceRatio *= 1.1;
+        this.priceRatio *= 1.25;
         this.status = LAUNCHABLE;
     },
     

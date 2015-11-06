@@ -44,7 +44,18 @@ Lander.prototype = {
         this.game.load.image('ground_1x1', '../assets/tilemaps/tiles/ground_1x1.png');
         this.game.load.image('walls_1x2', '../assets/tilemaps/tiles/walls_1x2.png');
         this.game.load.image('tiles2', '../assets/tilemaps/tiles/tiles2.png');
-        this.game.load.image('ship', '../assets/sprites/ship01.png');
+        this.game.load.image('ship01', '../assets/sprites/ship01.png');
+        this.game.load.image('ship02', '../assets/sprites/ship02.png');
+        this.game.load.image('ship03', '../assets/sprites/ship03.png');
+        this.game.load.image('ship04', '../assets/sprites/ship04.png');
+        this.game.load.image('ship05', '../assets/sprites/ship05.png');
+        this.game.load.image('ship06', '../assets/sprites/ship06.png');
+        this.game.load.image('ship07', '../assets/sprites/ship07.png');
+        this.game.load.image('ship08', '../assets/sprites/ship08.png');
+        this.game.load.image('ship09', '../assets/sprites/ship09.png');
+        this.game.load.image('ship10', '../assets/sprites/ship10.png');
+        this.game.load.image('ship11', '../assets/sprites/ship11.png');
+        this.game.load.image('ship12', '../assets/sprites/ship12.png');
         this.game.load.image('pattern', '../assets/patterns/pattern1.png');
         this.game.load.image('sub-pattern', '../assets/patterns/pattern9.png');
         this.game.load.image('base', '../assets/sprites/base.png');
@@ -134,9 +145,9 @@ Lander.prototype = {
         if (this.hasShip()) return;
         if (!this.game.Game.launchResearch(id)) return;
 
-        // var shipX = Math.round(Math.random()*(this.game.world.bounds.width-100))+50;
-        var shipX = 50;
-        this.ship = this.game.add.sprite(shipX, -450, 'ship');
+        var shipX = Math.round(Math.random()*(this.game.world.bounds.width-100))+50;
+        var base_research = this.game.Game.researchControl.tree.getResearch(id);
+        this.ship = this.game.add.sprite(shipX, -450, 'ship' + base_research.img);
         this.ship.originalID = id;
 
         this.shipGUI = this.game.add.sprite(0, 0, 'landing-gui');
@@ -157,7 +168,6 @@ Lander.prototype = {
             { font: "13px Arial", fill: "blue", align: "right" });
 
         this.game.physics.box2d.enable(this.ship);
-        this.ship.body.setRectangle(81,84,0,0);
         this.ship.body.restitution = 0.2;
         this.ship.body.angularDampiong = 0.1;
         this.ship.body.angularVelocity = 1.2;

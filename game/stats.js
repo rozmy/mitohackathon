@@ -14,6 +14,7 @@ Stats.prototype = {
         this.switchToTechButton = document.querySelector('.viewSwitchToTech');
         this.switchToTechButton.addEventListener('click', this.onSwitchToTech.bind(this));
         this.techTechView = document.querySelector('.techTree');
+        this.techItem = document.querySelectorAll('.techItem');
 
         this.oxygen = document.querySelector('.oxygenAmount');
         this.water = document.querySelector('.waterAmount');
@@ -22,7 +23,6 @@ Stats.prototype = {
         this.money = document.querySelector('.moneyAmount');
         this.stuff = document.querySelector('.stuffAmount');
 
-        // TODO move to resource sg
         this.startBtns = document.querySelectorAll('.startResearchButton');
         for (var i = 0; i < this.startBtns.length; ++i) {
             this.startBtns[i].addEventListener('click', this.startResearchButton.bind(this));
@@ -31,12 +31,6 @@ Stats.prototype = {
         for (var i = 0; i < this.launchBtns.length; ++i) {
             this.launchBtns[i].addEventListener('click', this.launchButton.bind(this));
         }
-        //
-        // this.stopBtn = document.querySelector('.stopResearchButton');
-        // this.stopBtn.addEventListener('click', this.stopResearchButton.bind(this));
-        //
-        // this.pauseBtn = document.querySelector('.pauseButton');
-        // this.pauseBtn.addEventListener('click', this.pauseButton.bind(this));
     },
     pauseButton: function(event) {
         if (!this.game.Game.isPaused()) {
@@ -55,9 +49,6 @@ Stats.prototype = {
         this.game.LanderState.launch(event.currentTarget.parentNode.id);
         event.currentTarget.parentNode.classList.remove('launchable');
     },
-    stopResearchButton: function() {
-        this.game.Game.stopResearch('W1');
-    },
     onSwitchToPlanet: function() {
         this.switchToPlanetButton.classList.add('active');
         this.switchToTechButton.classList.remove('active');
@@ -72,6 +63,17 @@ Stats.prototype = {
         this.game.Game.collect();
         this.money.textContent = this.game.Game.MONEY;
     },
+    refreshTechItem: function() {
+        for (var i=0; i<this.techItem.length; i++) {
+            var techItem = this.techItem[i],
+                price = techItem.querySelector('.price'),
+                progress = techItem.querySelector('.buildingButton'),
+                res = this.game.Game.researchControl.getResearch(techItem.id);
+
+            price.innerHTML = '$'+res.getPrice();
+            progress.innerHTML = 'Building '+Math.round(res.paid/res.getPrice() * 100) + '%';
+        }
+    },
     update: function() {
         var maxAmount = 150;
 
@@ -85,5 +87,7 @@ Stats.prototype = {
         this.electricity.style.width = Math.min(this.game.Game.ELECTRICITY * 100/maxAmount, 100) + '%';
         this.money.textContent = this.game.Game.MONEY;
         this.stuff.textContent = JSON.stringify(this.game.Game.researchControl.researches);
+        
+        this.refreshTechItem();
     }
 };
