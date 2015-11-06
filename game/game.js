@@ -110,7 +110,9 @@ Game.prototype.updateResources = function() {
 
         // Make it launchable.
         if (r.paid == r.getPrice()) {
-            console.log('Finished `' + r.base.id + '` research.')
+            console.log('Finished `' + r.base.id + '` research.');
+            document.getElementById(r.base.id).classList.remove('building');
+            document.getElementById(r.base.id).classList.add('launchable');
             r.finish();
         }
     }

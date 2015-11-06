@@ -23,14 +23,17 @@ Stats.prototype = {
         this.stuff = document.querySelector('.stuffAmount');
 
         // TODO move to resource sg
-        // this.startBtn = document.querySelector('.startResearchButton');
-        // this.startBtn.addEventListener('click', this.startResearchButton.bind(this));
+        this.startBtns = document.querySelectorAll('.startResearchButton');
+        for (var i = 0; i < this.startBtns.length; ++i) {
+            this.startBtns[i].addEventListener('click', this.startResearchButton.bind(this));
+        }
+        this.launchBtns = document.querySelectorAll('.launchButton');
+        for (var i = 0; i < this.launchBtns.length; ++i) {
+            this.launchBtns[i].addEventListener('click', this.launchButton.bind(this));
+        }
         //
         // this.stopBtn = document.querySelector('.stopResearchButton');
         // this.stopBtn.addEventListener('click', this.stopResearchButton.bind(this));
-        //
-        // this.launchBtn = document.querySelector('.launchButton');
-        // this.launchBtn.addEventListener('click', this.launchButton.bind(this));
         //
         // this.pauseBtn = document.querySelector('.pauseButton');
         // this.pauseBtn.addEventListener('click', this.pauseButton.bind(this));
@@ -44,20 +47,23 @@ Stats.prototype = {
     },
     // TODO move to resource sg
     startResearchButton: function(event) {
-        this.game.Game.startResearch(event.target.dataset.resId);
+        this.game.Game.startResearch(event.currentTarget.dataset.resId);
+        event.currentTarget.parentNode.classList.add('building');
+    },
+    launchButton: function(event) {
+        this.onSwitchToPlanet();
+        this.game.LanderState.launch(event.currentTarget.dataset.resId);
+        event.currentTarget.parentNode.classList.remove('launchable');
     },
     stopResearchButton: function() {
         this.game.Game.stopResearch('W1');
     },
-    launchButton: function() {
-        this.game.LanderState.launch('P1');
-    },
-    onSwitchToPlanet: function(event) {
+    onSwitchToPlanet: function() {
         this.switchToPlanetButton.classList.add('active');
         this.switchToTechButton.classList.remove('active');
         this.techTechView.classList.remove('active');
     },
-    onSwitchToTech: function(event) {
+    onSwitchToTech: function() {
         this.switchToPlanetButton.classList.remove('active');
         this.switchToTechButton.classList.add('active');
         this.techTechView.classList.add('active');
