@@ -146,7 +146,7 @@ Lander.prototype = {
 
         this.destroyedEmitter = this.game.add.emitter(0, 0, 250);
         this.destroyedEmitter.makeParticles('thrust-particle');
-        
+
         this.rainEmitter = this.game.add.emitter(this.game.world.centerX, -500, 0);
         this.rainEmitter.width = this.game.world.width;
         this.rainEmitter.angle = wind;
@@ -267,7 +267,8 @@ Lander.prototype = {
             this.ship = null;
             return;
         }
-        
+
+
         // Alternate solution: if (this.ship.body.velocity.x == 0 && this.ship.body.velocity.y == 0) this.deployObject()
         if (this.ship.prevTouchSurface != null) {
             if (this.ship.prevTouchSurface.x.toFixed(2) == this.ship.body.x.toFixed(2) && this.ship.prevTouchSurface.y.toFixed(2) == this.ship.body.y.toFixed(2) && this.ship.prevTouchSurface.a.toFixed(1) == this.ship.body.angle.toFixed(1)) {
