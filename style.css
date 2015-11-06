@@ -108,6 +108,7 @@ button {
     display: flex;
     align-items: center;
     min-height: 24px;
+    position: relative;
 }
 
 .status .icon {
@@ -136,7 +137,38 @@ button {
 }
 
 .tooltip {
-    display: none;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    top: 0px;
+    left: 34px;
+    transform: translate(-50%);
+    background: #373d37;
+    border-radius: 6px;
+    padding: 5px;
+    font-size: 14px;
+    transition: top .2s, opacity .2s;
+}
+
+p:hover .tooltip {
+    opacity: 1;
+    top: -30px;
+}
+p.money:hover .tooltip {
+    top: -8px;
+}
+
+.tooltip:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -6px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: #373d37 transparent transparent;
+    border-width: 6px 6px 0;
 }
 
 .viewSwitch {
