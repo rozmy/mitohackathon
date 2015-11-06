@@ -69,12 +69,27 @@ a {
     display: inline-block;
     box-shadow: inset 0 -10px 0 -5px white;
     line-height: 1;
+    border-bottom: 3px solid white;
+    transition: border .2s, box-shadow .2s;
+}
+
+a:hover, a:focus {
+    border-bottom: 3px solid #000cff;
+    box-shadow: none;
+}
+
+.imglink,
+.imglink:hover,
+.imglink:focus {
+    box-shadow: none;
+    border: none;
 }
 
 img {
     display: block;
     max-width: 100%;
     margin: 0 auto;
+    box-shadow: none;
 }
 
 small {
@@ -93,11 +108,29 @@ small {
     display: inline-block;
     padding: 1em 2.5em;
     background: white;
+    /* background-image: linear-gradient(to right, #000cff 50%, white 50%, white 53%, #000cff 53%, #000cff 54%, white 54%, white 55%, #000cff 55%, #000cff 55.5%, white 55.5%); */
+    /* background-image: linear-gradient(135deg, #000cff 50%, white 0%); */
+    background-image: linear-gradient(135deg, #000cff 50%, white 50%, white 51%, #000cff 51%, #000cff 52%, white 52%, white 53%, #000cff 53%, #000cff 54%, white 54%);
+    background-size: 250% 150%;
+    background-position: 95% 0%;
     color: #000cff;
     text-decoration: none;
-    border: 4px solid;
+    border: 4px solid #000cff;
     font-weight: bold;
     margin-top: 2.5em;
+    transition: background-position .6s;
+    box-shadow: none;
+    border-bottom-width: 8px;
+    position: relative;
+}
+
+.button:hover, .button:focus {
+    /* background-position: 0% 0%; */
+    background-position: 20% 0%;
+    color: white;
+    border-bottom-width: 4px;
+    margin-bottom: 4px;
+    top: 4px;
 }
 
 .icons {
