@@ -344,3 +344,39 @@ p.money {
 .launchable .launchButton {
     display: block;
 }
+
+/* MONEYCLICKER */
+.moneyClicker {
+    position: absolute;
+    left: 50%;
+    top: 50px;
+    margin-left: -150px;
+
+    padding: 1em 2.5em;
+    background: white;
+    /* background-image: linear-gradient(to right, #000cff 50%, white 50%, white 53%, #000cff 53%, #000cff 54%, white 54%, white 55%, #000cff 55%, #000cff 55.5%, white 55.5%); */
+    /* background-image: linear-gradient(135deg, #000cff 50%, white 0%); */
+    background-image: linear-gradient(135deg, #000cff 50%, white 50%, white 51%, #000cff 51%, #000cff 52%, white 52%, white 53%, #000cff 53%, #000cff 54%, white 54%);
+    background-size: 250% 150%;
+    background-position: 95% 0%;
+    color: #000cff;
+    text-decoration: none;
+    border: 2px solid #000cff;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-position .6s;
+    border-bottom-width: 6px;
+}
+
+
+.moneyClicker:hover, .moneyClicker:focus {
+    /* background-position: 0% 0%; */
+    background-position: 20% 0%;
+    color: white;
+}
+
+.moneyClicker:active {
+    top: 54px;
+    border-bottom-width: 2px;
+    margin-bottom: 4px;
+}

@@ -7,7 +7,7 @@ function Stats(game) {
 Stats.prototype = {
     init: function() {
 
-        this.collectMoneyButton = document.querySelector('.collectMoneyButton');
+        this.collectMoneyButton = document.querySelector('.moneyClicker');
         this.collectMoneyButton.addEventListener('click', this.collectMoney.bind(this));
         this.switchToPlanetButton = document.querySelector('.viewSwitchToPlanet');
         this.switchToPlanetButton.addEventListener('click', this.onSwitchToPlanet.bind(this));
@@ -61,7 +61,7 @@ Stats.prototype = {
     },
     collectMoney: function() {
         this.game.Game.collect();
-        this.money.textContent = this.game.Game.MONEY;
+        this.money.textContent = ('00000'+this.game.Game.MONEY).slice(-5);
     },
     refreshTechItem: function() {
         for (var i=0; i<this.techItem.length; i++) {
