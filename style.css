@@ -342,6 +342,10 @@ td, th {
     width: 25%;
 }
 
+th.disabled span {
+    opacity: 0.3;
+}
+
 .decrease {
     color: #000cff;
 }

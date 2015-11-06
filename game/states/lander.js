@@ -56,6 +56,7 @@ Lander.prototype = {
         this.game.load.image('ship10', '../assets/sprites/ship10.png');
         this.game.load.image('ship11', '../assets/sprites/ship11.png');
         this.game.load.image('ship12', '../assets/sprites/ship12.png');
+        this.game.load.image('ship13', '../assets/sprites/ship13.png');
         this.game.load.image('pattern', '../assets/patterns/pattern1.png');
         this.game.load.image('sub-pattern', '../assets/patterns/pattern9.png');
         this.game.load.image('base', '../assets/sprites/base.png');

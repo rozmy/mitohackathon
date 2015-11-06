@@ -71,10 +71,29 @@ Stats.prototype = {
             var techItem = this.techItem[i],
                 price = techItem.querySelector('.price'),
                 progress = techItem.querySelector('.buildingButton'),
-                res = this.game.Game.researchControl.getResearch(techItem.id);
+                res = this.game.Game.researchControl.getResearch(techItem.id),
+                resources = res.base.resource,
+                resourcesHeader = techItem.querySelectorAll('table th'),
+                resourcesBlock = techItem.querySelectorAll('table td');
 
             price.innerHTML = '$'+res.getPrice();
             progress.innerHTML = 'Building '+Math.round(res.paid/res.getPrice() * 100) + '%';
+            this.updateResource('o', resources, resourcesHeader[0], resourcesBlock[0]);
+            this.updateResource('w', resources, resourcesHeader[1], resourcesBlock[1]);
+            this.updateResource('f', resources, resourcesHeader[2], resourcesBlock[2]);
+            this.updateResource('e', resources, resourcesHeader[3], resourcesBlock[3]);
+        }
+    },
+    updateResource: function(key, resources, header, block) {
+        if (!(key in resources)) {
+            header.className = 'disabled';
+        };
+        if (key in resources && resources[key] < 0.0) {
+            block.innerHTML = resources[key].toFixed(1);
+            block.className = 'decrease';
+        } else if (key in resources && resources[key] > 0.0 ) {
+            block.innerHTML = '+'+resources[key].toFixed(1);
+            block.className = 'increase';
         }
     },
     update: function() {
