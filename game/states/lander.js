@@ -50,6 +50,8 @@ Lander.prototype = {
         this.game.load.image('landing-gui', '../assets/sprites/langing-gui.png');
         this.game.load.image('landing-gui-direction', '../assets/sprites/langing-gui-direction.png');
         this.game.load.image('landing-gui-warning', '../assets/sprites/langing-gui-warning.png');
+        this.game.load.image('thrust-particle', '../assets/sprites/particle.png');
+        this.game.load.image('thrust', '../assets/sprites/thrust.png');
     },
     changeWind: function() {
         var wind_diff = [-1,1][Math.round(Math.random())] * Math.round(Math.random()*5),
@@ -110,6 +112,10 @@ Lander.prototype = {
         this.graphics = graphics;
         this.ship = null;
         this.facilities = [];
+        
+        this.emitter = this.game.add.emitter(0, 0, 40);
+        this.emitter.makeParticles('thrust-particle');
+        this.emitter.gravity = 120;
     },
     launch: function(id) {
         if (this.hasShip()) return;
@@ -134,6 +140,8 @@ Lander.prototype = {
         this.shipGUIWarning.anchor.x = 0.5;
         this.shipGUIWarning.anchor.y = 0.5;
         
+        this.shipTrust = null;
+
         this.shipFuel = this.game.add.text(0, 0, 500, 
             { font: "13px Arial", fill: "blue", align: "right" });
 
@@ -159,6 +167,7 @@ Lander.prototype = {
         this.shipGUIDirection.destroy();
         this.shipGUIWarning.destroy();
         this.shipFuel.destroy(); 
+        if (this.shipTrust != null) this.shipTrust.destroy();
     },
     destroyObject: function(obj) {
         // TODO: Explosion
@@ -202,6 +211,7 @@ Lander.prototype = {
         // TODO: Make it unmoveable after stops. These solutions aren't working.
         this.ship.body.velocity.x = 0;
         this.ship.body.velocity.y = 0;
+        this.ship.body.z = 1000;
         this.ship.body.fixedRotation = true;
         this.ship.body.static = true;
         this.facilities.push(this.ship);
@@ -247,6 +257,26 @@ Lander.prototype = {
         if (this.cursors.up.isDown && this.ship.fuel > 0) {
             this.ship.fuel--;
             this.ship.body.thrust(300);
+
+            this.emitter.x = this.ship.body.x;
+            this.emitter.y = this.ship.body.y + 25;
+            this.emitter.z = this.ship.body.z - 1;
+            this.emitter.setRotation(this.ship.body.angle-5, this.ship.body.angle+5);
+            this.emitter.start(true, 500, null, 5);
+            
+            if (this.shipTrust == null) {
+                this.shipTrust = this.game.add.sprite(0,0,'thrust');
+                this.shipTrust.anchor.x = 0.5;
+                this.shipTrust.anchor.y = 0;
+            }
+            this.shipTrust.x = this.ship.body.x;
+            this.shipTrust.y = this.ship.body.y;
+            this.shipTrust.z = this.ship.body.z - 2;
+            this.shipTrust.angle = this.ship.body.angle;
+        }
+        if ((!this.cursors.up.isDown || this.ship.fuel <= 0) && this.shipTrust != null) {
+            this.shipTrust.destroy();
+            this.shipTrust = null;
         }
         
         this.shipGUI.x = this.ship.body.x;
@@ -262,6 +292,6 @@ Lander.prototype = {
         this.shipFuel.text = Math.round(this.ship.fuel);
     },
     render: function () {
-        this.game.debug.box2dWorld();
+        // this.game.debug.box2dWorld();
     }
 };
