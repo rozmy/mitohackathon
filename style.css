@@ -343,6 +343,8 @@ p.money {
 
 .launchable .launchButton {
     display: block;
+    background: #000cff;
+    color: white;
 }
 
 /* MONEYCLICKER */
