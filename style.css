@@ -88,16 +88,15 @@ button {
 }
 
 .logo h1 {
-    text-transform: uppercase;
-    font-size: 1em;
     margin: 20px auto;
     width: 130px;
     height: 130px;
-    line-height: 130px;
-    border-radius: 50%;
-    background: #fafae6;
-    color: #000cff;
-    text-align: center;
+    background: url(assets/gui/menu-gamelogo.png) no-repeat;
+    background-size: contain;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-indent: 110%;
 }
 
 .status {
