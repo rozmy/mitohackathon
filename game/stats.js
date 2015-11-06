@@ -85,7 +85,7 @@ Stats.prototype = {
         this.food.style.width = Math.min(this.game.Game.FOOD * 100/maxAmount, 100) + '%';
         // this.electricity.textContent = this.game.Game.ELECTRICITY;
         this.electricity.style.width = Math.min(this.game.Game.ELECTRICITY * 100/maxAmount, 100) + '%';
-        this.money.textContent = this.game.Game.MONEY;
+        this.money.textContent = ('00000'+this.game.Game.MONEY).slice(-5);
         this.stuff.textContent = JSON.stringify(this.game.Game.researchControl.researches);
         
         this.refreshTechItem();
