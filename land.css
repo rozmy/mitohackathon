@@ -128,9 +128,13 @@ small {
     /* background-position: 0% 0%; */
     background-position: 20% 0%;
     color: white;
+    border-bottom-width: 8px;
+}
+
+.button:active {
+    top: 4px;
     border-bottom-width: 4px;
     margin-bottom: 4px;
-    top: 4px;
 }
 
 .icons {
