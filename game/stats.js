@@ -17,6 +17,8 @@ Stats.prototype = {
         this.switchToTechButton.addEventListener('click', this.onSwitchToTech.bind(this));
         this.techTechView = document.querySelector('.techTree');
         this.techItem = document.querySelectorAll('.techItem');
+        this.pauseBtn = document.querySelector('.pauseButton');
+        this.pauseBtn.addEventListener('click', this.pauseButton.bind(this));
 
         this.oxygen = document.querySelector('.oxygenAmount');
         this.water = document.querySelector('.waterAmount');
@@ -33,10 +35,9 @@ Stats.prototype = {
             this.launchBtns[i].addEventListener('click', this.launchButton.bind(this));
         }
 
-        this.pauseBtn = document.querySelector('.pauseButton');
-        this.pauseBtn.addEventListener('click', this.pauseButton.bind(this));
     },
     pauseButton: function(event) {
+        this.pauseBtn.classList.toggle('paused');
         if (!this.game.Game.isPaused()) {
             this.game.Game.pause();
         } else {
