@@ -330,6 +330,6 @@ Lander.prototype = {
         this.shipFuel.text = Math.round(this.ship.fuel);
     },
     render: function () {
-        this.game.debug.box2dWorld();
+        // this.game.debug.box2dWorld();
     }
 };
