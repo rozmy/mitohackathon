@@ -45,20 +45,18 @@ html, body, div, p {
     flex-direction: column;
 }
 
-.logo {
+.logo,
+.settings {
     flex-grow: 1;
 }
 
 .status,
-.viewSwitch,
-.settings {
+.viewSwitch {
     flex-grow: 0;
 }
 
-
-
 .collectMoneyButton,
-.stuffContainer {
+.status .stuffContainer {
     display: none;
 }
 
@@ -73,6 +71,7 @@ input, button {
 
 button {
     outline: none;
+    cursor: pointer;
 }
 
 .controlPanel,
@@ -90,7 +89,7 @@ button {
 .logo h1 {
     text-transform: uppercase;
     font-size: 1em;
-    margin: 30px auto;
+    margin: 20px auto;
     width: 130px;
     height: 130px;
     line-height: 130px;
@@ -101,15 +100,39 @@ button {
 }
 
 .status {
-    padding: 20px 0;
+    padding: 0 0 20px;
 }
 
 .status p {
-    padding: 5px 20px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    min-height: 24px;
+}
+
+.status .icon {
+    transform: scale(.6);
+    margin-right: 5px;
+}
+
+.status .amount {
+    flex-grow: 1;
+    height: 7px;
+    background: #373d37;
+    border-radius: 4px;
+}
+
+.status .amount span {
+    display: block;
+    background: white;
+    height: 100%;
+    border-radius: inherit;
+    vertical-align: middle;
 }
 
 .moneyAmount {
     font: 80px/1 'Abril Fatface', serif;
+    height: 1em;
 }
 
 .tooltip {
@@ -152,6 +175,7 @@ button {
     display: flex;
     display: -webkit-flex;
     justify-content: space-between;
+    align-items: flex-end;
     padding-top: 20px;
     overflow: hidden;
 }
@@ -161,7 +185,6 @@ button {
     border: none;
     padding: 10px;
     font-size: 16px;
-    cursor: pointer;
 }
 
 
