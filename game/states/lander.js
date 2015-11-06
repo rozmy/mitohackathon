@@ -65,6 +65,10 @@ Lander.prototype = {
         this.game.load.image('landing-gui-warning', '../assets/sprites/langing-gui-warning.png');
         this.game.load.image('thrust-particle', '../assets/sprites/particle.png');
         this.game.load.image('thrust', '../assets/sprites/thrust.png');
+        this.game.load.image('resource-W', '../assets/sprites/water-icon.png');
+        this.game.load.image('resource-F', '../assets/sprites/food-icon.png');
+        this.game.load.image('resource-O', '../assets/sprites/oxygen-icon.png');
+        this.game.load.image('resource-P', '../assets/sprites/power-icon.png');
         this.game.load.spritesheet('explosion', '../assets/sprites/explosion-200.png', 200, 200, 14);
     },
     changeWind: function() {
@@ -198,6 +202,10 @@ Lander.prototype = {
         this.destroyedEmitter.y = obj.body.y;
         this.destroyedEmitter.start(true, 1250, 500, 150);
 
+        if (obj.currentProduction) {
+            obj.currentProduction.destroy();
+        }
+
         var exp = this.game.add.sprite(obj.body.x, obj.body.y, 'explosion');
         exp.anchor.x = 0.5;
         exp.anchor.y = 0.5;
@@ -251,12 +259,29 @@ Lander.prototype = {
         this.ship.body.z = 1000;
         this.ship.body.fixedRotation = true;
         this.ship.body.static = true;
+
+        var iconEmitter = this.game.add.emitter(0, 0, 1),
+            iconType = this.ship.originalID[0];
+        
+        iconEmitter.makeParticles('resource-'+iconType);
+        iconEmitter.x = this.ship.body.x;
+        iconEmitter.y = this.ship.body.y;
+        iconEmitter.gravity = -100;
+        iconEmitter.minRotation = 0;
+        iconEmitter.maxRotation = 0;
+        iconEmitter.start(false, 4000, 3);
+
+        this.ship.currentProduction = iconEmitter;
+        
         this.facilities.push(this.ship);
         this.game.Game.deployResearch(this.ship.originalID);
         this.ship = null;
         this.destroyGUI();
+        this.game.camera.follow(null);
     },
     onDestroyBase: function(body1, body2, fixture1, fixture2, begin) {
+        this.destroyObject(this.base, false);
+        this.destroyObject(this.ship);
         this.game.Game.leave();
     },
     onDestroyFacility: function(body1, body2, fixture1, fixture2, begin) {
@@ -278,6 +303,17 @@ Lander.prototype = {
         return (this.ship != null)
     },
     update: function () {
+        if (this.game.input.activePointer.isDown) {
+            if (this.game.origDragPoint) {
+                this.game.camera.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;
+                this.game.camera.y += this.game.origDragPoint.y - this.game.input.activePointer.position.y;
+            }
+            this.game.origDragPoint = this.game.input.activePointer.position.clone();
+        }
+        else {
+            this.game.origDragPoint = null;
+        }
+
         if (!this.hasShip())
             return;
 
