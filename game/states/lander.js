@@ -289,10 +289,8 @@ Lander.prototype = {
     },
     showPowerWarnings: function() {
         for (var i=0; i<this.facilities.length; i++) {
-            var research = this.game.Game.researchControl.getResearch(this.facilities[i].originalID),
-                disabled = research.disabled;
-            this.facilities[i].noPowerIcon.visible = disabled;
-            this.facilities[i].currentProduction.visible = !disabled;
+            this.facilities[i].noPowerIcon.visible = this.facilities[i].research.disabled;
+            this.facilities[i].currentProduction.visible = !this.facilities[i].research.disabled;
         }
     },
     deployObject: function() {
@@ -320,7 +318,10 @@ Lander.prototype = {
         this.ship.noPowerIcon.alpha = 0.7;
         this.ship.noPowerIcon.visible = false;
         this.game.add.tween(this.ship.noPowerIcon).to({ alpha: 1.0 }, 2000, Phaser.Easing.Quadratic.InOut, true, 0, 1000, true);
-        
+
+        // Add the research object to the ship.
+        this.ship.research = this.game.Game.researchControl.getResearch(this.ship.originalID);
+
         // Save the facility, deploy, and remove the GUI for landing.
         this.facilities.push(this.ship);
         this.game.Game.deployResearch(this.ship.originalID);
