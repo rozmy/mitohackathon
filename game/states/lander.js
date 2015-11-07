@@ -169,8 +169,8 @@ Lander.prototype = {
         this.rainEmitter.start(false, 2400, 10, 0);
     },
     launch: function(id) {
-        if (this.hasShip()) return;
-        if (!this.game.Game.launchResearch(id)) return;
+        if (this.hasShip()) return false;
+        if (!this.game.Game.launchResearch(id)) return false;
 
         var shipX = Math.round(Math.random()*(this.game.world.bounds.width-100))+50;
         var base_research = this.game.Game.researchControl.tree.getResearch(id);
@@ -210,6 +210,7 @@ Lander.prototype = {
         this.ship.body.setBodyContactCallback(this.base, this.onDestroyBase, this);
         for (var i=0; i<this.facilities.length; i++)
             this.ship.body.setBodyContactCallback(this.facilities[i], this.onDestroyFacility, this);
+        return true;
     },
     destroyGUI: function() {
         this.shipGUI.destroy();

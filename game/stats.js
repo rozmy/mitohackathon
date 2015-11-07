@@ -48,9 +48,10 @@ Stats.prototype = {
         event.currentTarget.parentNode.classList.add('building');
     },
     launchButton: function(event) {
-        this.onSwitchToPlanet();
-        this.game.LanderState.launch(event.currentTarget.parentNode.id);
-        event.currentTarget.parentNode.classList.remove('launchable');
+        if (this.game.LanderState.launch(event.currentTarget.parentNode.id)) {
+            this.onSwitchToPlanet();
+            event.currentTarget.parentNode.classList.remove('launchable');
+        }
     },
     onSwitchToPlanet: function() {
         this.switchToPlanetButton.classList.add('active');
