@@ -41,7 +41,7 @@
     background-position: -136px -5px;
 }
 
-.icon-menu-play {
+.paused .icon-menu-pause {
     width: 46px;
     height: 46px;
     background-position: -172px -117px;
@@ -51,7 +51,7 @@ button:hover .icon-menu-pause {
     background-position: -5px -61px;
 }
 
-button:hover .icon-menu-play {
+button.paused:hover .icon-menu-pause {
     background-position: -61px -61px;
 }
 

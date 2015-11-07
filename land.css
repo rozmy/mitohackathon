@@ -48,9 +48,19 @@ section {
     min-height: 100vh;
     box-sizing: border-box;
     padding: 1.5em 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
 }
 
 h1 {
@@ -70,6 +80,7 @@ a {
     box-shadow: inset 0 -10px 0 -5px white;
     line-height: 1;
     border-bottom: 3px solid white;
+    -webkit-transition: border .2s, box-shadow .2s;
     transition: border .2s, box-shadow .2s;
 }
 
@@ -110,6 +121,7 @@ small {
     background: white;
     /* background-image: linear-gradient(to right, #000cff 50%, white 50%, white 53%, #000cff 53%, #000cff 54%, white 54%, white 55%, #000cff 55%, #000cff 55.5%, white 55.5%); */
     /* background-image: linear-gradient(135deg, #000cff 50%, white 0%); */
+    background-image: -webkit-linear-gradient(315deg, #000cff 50%, white 50%, white 51%, #000cff 51%, #000cff 52%, white 52%, white 53%, #000cff 53%, #000cff 54%, white 54%);
     background-image: linear-gradient(135deg, #000cff 50%, white 50%, white 51%, #000cff 51%, #000cff 52%, white 52%, white 53%, #000cff 53%, #000cff 54%, white 54%);
     background-size: 250% 150%;
     background-position: 95% 0%;
@@ -118,6 +130,7 @@ small {
     border: 4px solid #000cff;
     font-weight: bold;
     margin-top: 2.5em;
+    -webkit-transition: background-position .6s;
     transition: background-position .6s;
     box-shadow: none;
     border-bottom-width: 8px;
@@ -150,9 +163,18 @@ small {
 }
 
 .credits {
-    flex-wrap: wrap;
-    align-items: center;
-    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
 }
 
 .credits h1 {
@@ -161,7 +183,10 @@ small {
 
 .credits figure {
     padding: 1em;
-    flex: 1;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
     min-width: 200px;
 }
 

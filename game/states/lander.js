@@ -155,7 +155,7 @@ Lander.prototype = {
 
         this.destroyedEmitter = this.game.add.emitter(0, 0, 250);
         this.destroyedEmitter.makeParticles('thrust-particle');
-        
+
         this.rainEmitter = this.game.add.emitter(this.game.world.centerX, -500, 0);
         this.rainEmitter.width = this.game.world.width;
         this.rainEmitter.angle = -wind;

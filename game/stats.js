@@ -36,11 +36,10 @@ Stats.prototype = {
             this.launchBtns[i].addEventListener('click', this.launchButton.bind(this));
     },
     pauseButton: function(event) {
+        this.pauseBtn.classList.toggle('paused');
         if (!this.game.Game.isPaused()) {
-            this.pauseBtn.innerHTML = '<span class="icon icon-menu-play"></span> Resume';
             this.game.Game.pause();
         } else {
-            this.pauseBtn.innerHTML = '<span class="icon icon-menu-pause"></span> Pause';
             this.game.Game.resume();
         }
     },
