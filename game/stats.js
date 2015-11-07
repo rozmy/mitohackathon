@@ -6,16 +6,24 @@ function Stats(game) {
 
 Stats.prototype = {
     init: function() {
+        // Collect money button
         this.collectMoneyButton = document.querySelector('.moneyClicker');
-        this.collectMoneyButton.addEventListener('click', this.collectMoney.bind(this));
+        this.collectMoneyFn = this.collectMoney.bind(this);
+        this.collectMoneyButton.addEventListener('click', this.collectMoneyFn);
+        
         this.restartButton = document.querySelector('.restartButton');
-        this.restartButton.addEventListener('click', this.onRestartClicked.bind(this));
+        this.restartFn = this.onRestartClicked.bind(this);
+        this.restartButton.addEventListener('click', this.restartFn);
+        
         this.switchToPlanetButton = document.querySelector('.viewSwitchToPlanet');
-        this.switchToPlanetButton.addEventListener('click', this.onSwitchToPlanet.bind(this));
+        this.switchToPlanetFn = this.onSwitchToPlanet.bind(this);
+        this.switchToPlanetButton.addEventListener('click', this.switchToPlanetFn);
+        
         this.switchToTechButton = document.querySelector('.viewSwitchToTech');
-        this.switchToTechButton.addEventListener('click', this.onSwitchToTech.bind(this));
+        this.switchToTechFn = this.onSwitchToTech.bind(this);
+        this.switchToTechButton.addEventListener('click', this.switchToTechFn);
+        
         this.techTechView = document.querySelector('.techTree');
-
         this.oxygen = document.querySelector('.oxygenAmount');
         this.water = document.querySelector('.waterAmount');
         this.food = document.querySelector('.foodAmount');
@@ -23,7 +31,8 @@ Stats.prototype = {
         this.money = document.querySelector('.moneyAmount');
 
         this.pauseBtn = document.querySelector('.pauseButton');
-        this.pauseBtn.addEventListener('click', this.pauseButton.bind(this));
+        this.pauseFn = this.pauseButton.bind(this);
+        this.pauseBtn.addEventListener('click', this.pauseFn);
     },
     initEvents: function(event) {
         this.techItem = document.querySelectorAll('.techItem');
@@ -36,6 +45,7 @@ Stats.prototype = {
             this.launchBtns[i].addEventListener('click', this.launchButton.bind(this));
     },
     pauseButton: function(event) {
+        console.log('ittvok');
         this.pauseBtn.classList.toggle('paused');
         if (!this.game.Game.isPaused()) {
             this.game.Game.pause();
@@ -64,6 +74,11 @@ Stats.prototype = {
         this.techTechView.classList.add('active');
     },
     onRestartClicked: function() {
+        this.collectMoneyButton.removeEventListener('click', this.collectMoneyFn);
+        this.pauseBtn.removeEventListener('click', this.pauseFn);
+        this.restartButton.removeEventListener('click', this.restartFn);
+        this.switchToPlanetButton.removeEventListener('click', this.switchToPlanetFn);
+        this.switchToTechButton.removeEventListener('click', this.switchToTechFn);
         this.game.Game.restart();
     },
     collectMoney: function() {
