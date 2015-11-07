@@ -55,6 +55,13 @@ button:hover .icon-menu-play {
     background-position: -61px -61px;
 }
 
+button.paused .icon-menu-pause {
+    background-position: -172px -117px;
+}
+
+button.paused:hover .icon-menu-pause {
+    background-position: -61px -61px;
+}
 
 .icon-menu-volume-off {
     width: 45px;

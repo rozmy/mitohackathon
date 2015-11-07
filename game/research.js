@@ -5,6 +5,7 @@ var ResearchTree = function() {
         {
             id: 'P1',
             name: 'Solar powerplant',
+            desc: 'Basic solar cells provide some power, but they’re offline during night.',
             resource: {o: -1.0, e: 1.0},
             img: '08',
             price: 3
@@ -12,6 +13,7 @@ var ResearchTree = function() {
         {
             id: 'P2',
             name: 'Advanced solar cells',
+            desc: 'Advanced, flexible solar cells have improved production value: increased efficiency, yield, and throughput.',
             resource: {o: -1.0, e: 3.0},
             price: 40,
             img: '08',
@@ -19,6 +21,7 @@ var ResearchTree = function() {
         {
             id: 'P3',
             name: 'Wind turbines',
+            desc: 'Wind power is extracted from air flow using wind turbines or sails to produce mechanical or electrical power.',
             resource: {e: 4.0},
             price: 80,
             img: '12',
@@ -26,16 +29,26 @@ var ResearchTree = function() {
         {
             id: 'P4',
             name: 'Fusion powerplant',
+            desc: 'Produce electric power by use of inertial confinement fusion techniques on an industrial scale.',
             resource: {e: 6.0},
             price: 160,
             img: '11',
         },
+        {
+            id: 'P5',
+            name: 'Power silo',
+            desc: 'Gives +30 power storage capacity.',
+            resource: {e: -2, mE: 30},
+            price: 30,
+            img: '01' // TODO: New image
+        }
     ]
 
     this.oxygen = [
         {
             id: 'O1',
             name: 'Oxygen generator',
+            desc: 'Pressure Swing Adsorption technology isolates oxygen molecules from other molecules in compressed air.',
             resource: {o: 1.0},
             img: '01',
             price: 3
@@ -43,6 +56,7 @@ var ResearchTree = function() {
         {
             id: 'O2',
             name: 'Cyanobacteria',
+            desc: 'With cyanobacteria, oxygen is produced by the light-driven splitting of water during oxygenic photosynthesis.',
             resource: {o: 2.0, w: -1.0},
             price: 16,
             img: '04',
@@ -50,6 +64,7 @@ var ResearchTree = function() {
         {
             id: 'O3',
             name: 'Stromatolite',
+            desc: 'The organisms which construct stromatolites are photosynthetic. They take carbon dioxide and water to produce carbohydrates, and in doing this they liberate oxygen into the atmosphere.',
             resource: {o: 3.0, w: -1.0, e: -1.0},
             price: 32,
             img: '07',
@@ -57,40 +72,61 @@ var ResearchTree = function() {
         {
             id: 'O4',
             name: 'Cryogenic oxygen plant',
+            desc: 'A cryogenic oxygen plant is an industrial facility that creates molecular oxygen at relatively high purity.',
             resource: {o: 5.0, w: -2.0, e: -1.0},
             price: 64,
             img: '09',
         },
+        {
+            id: 'O5',
+            name: 'Oxygen silo',
+            desc: 'Gives +30 oxygen storage capacity.',
+            resource: {e: -2, mO: 30},
+            price: 30,
+            img: '01' // TODO: New image
+        }
     ];
 
     this.water = [
         {
             id: 'W1',
             name: 'Water treatment',
-            resource: {w: 1.0},
+            desc: 'Water treatment is the process of removing undesirable chemicals, biological contaminants, suspended solids and gases from contaminated water.',
+            resource: {w: 1.0, e: -1.0},
             price: 3,
             img: '10',
         },
         {
             id: 'W2',
             name: 'Disinfection plant',
-            resource: {w: 2.0},
+            desc: 'UV is a proven and safe alternative for primary disinfection as it is free of the harmful by-products associated with chemical disinfection.',
+            resource: {w: 2.0, e: -1.0},
             price: 24,
             img: '02',
         },
         {
             id: 'W3',
-            name: 'hydrogen&oxygen=water',
+            name: 'hydrogen & oxygen = water',
+            desc: 'To combine hydrogen and oxygen to make water, you basically have to mix the gases together and light them with a match.',
             resource: {o: -2.0, w: 2.0},
             price: 8,
             img: '13',
         },
+        {
+            id: 'W4',
+            name: 'Water silo',
+            desc: 'Gives +30 water storage capacity.',
+            resource: {e: -2, mW: 30},
+            price: 30,
+            img: '01' // TODO: New image
+        }
     ];
 
     this.food = [
         {
             id: 'F1',
             name: 'Farm',
+            desc: 'A farm is an area of land that is devoted primarily to agricultural processes.',
             resource: {f: 1.0, o: -1.0, w: -1.0},
             img: '03',
             price: 3
@@ -98,34 +134,31 @@ var ResearchTree = function() {
         {
             id: 'F2',
             name: 'Rice',
+            desc: 'Level fields allow rice farmers to conserve water. Fertilizer is then added, and shallow furrows are rolled into the field.',
             resource: {f: 2.0, w: -2.0},
             price: 16,
             img: '06',
         },
         {
             id: 'F3',
-            name: 'Spice',
-            resource: {f: 2.0, e: -1.0, o: -1.0},
-            price: 16,
-            img: '06',
-        },
-        {
-            id: 'F4',
             name: 'Potato',
+            desc: 'When farmed, potatoes will take 8 stages to grow. Fully grown potato crops drop 1 to 4 potatoes.',
             resource: {f: 2.0, w: -1.0, o: -1.0},
             price: 16,
             img: '06',
         },
         {
-            id: 'F5',
+            id: 'F4',
             name: 'Cereal',
+            desc: 'A cereal is any true grass cultivated for the edible components of its grain (botanically, a type of fruit called a caryopsis), composed of the endosperm, germ, and bran.',
             resource: {f: 3.0, w: -1.0, o: -1.0},
             price: 40,
             img: '06',
         },
         {
-            id: 'F6',
+            id: 'F5',
             name: 'Fish tank',
+            desc: 'Fish farming or pisciculture is the principal form of aquaculture, while other methods may fall under mariculture.',
             resource: {f: 5.0, w: -3.0, o: -1.0},
             price: 80,
             img: '09',
@@ -133,10 +166,19 @@ var ResearchTree = function() {
         {
             id: 'F7',
             name: 'Bunny farm',
+            desc: 'Cuniculture is the agricultural practice of breeding and raising domestic rabbits, usually for their meat, fur, or wool.',
             resource: {f: 6.0, w: -1.0, o: -1.0, e: -2.0},
             price: 80,
             img: '03',
         },
+        {
+            id: 'F8',
+            name: 'Food silo',
+            desc: 'Gives +30 food storage capacity.',
+            resource: {e: -2, mF: 30},
+            price: 30,
+            img: '01' // TODO: New image
+        }
     ];
 
     var groups = [this.electricity, this.food, this.water, this.oxygen];

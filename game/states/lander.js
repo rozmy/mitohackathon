@@ -33,9 +33,13 @@ Lander.prototype = {
         4858.19,-1.45256,4896.91,5.9419,4925.06,31.9846,4960.49,17.0905,5006.14,15.8518,
         5050.86,24.3401,5078.48,41.8191,5498.61,41.7032];
 
+        // Set up statistical sidebar
         this.game.stats = new Stats(this.game);
         this.game.stats.init();
-        setTimeout(this.game.Game.new.bind(this.game.Game), 0);
+
+        // Create a new game.
+        this.game.Game.new();
+        // setTimeout(this.game.Game.new.bind(this.game.Game), 0);
 
         this.game.LanderState = this;
     },
@@ -75,10 +79,14 @@ Lander.prototype = {
         var wind_diff = [-1,1][Math.round(Math.random())] * Math.round(Math.random()*5),
             wind = this.game.physics.box2d.gravity.x + wind_diff;
 
-        if (wind>30) wind = 30;
-        if (wind<-30) wind = -30;
-        this.game.physics.box2d.gravity.x = wind;
-        this.rainEmitter.angle = wind;
+        if (wind>60) wind = 60;
+        if (wind<-60) wind = -60;
+        
+        if (this.game.physics.box2d.gravity.x != wind) {
+            console.log('Wind speed is changed to `'+wind+'`');
+            this.game.physics.box2d.gravity.x = wind;
+            this.rainEmitter.angle = -wind;
+        }
     },
     create: function () {
         this.game.world.setBounds(0, -500, 5500, 1000);
@@ -88,8 +96,9 @@ Lander.prototype = {
         this.game.physics.startSystem(Phaser.Physics.BOX2D);
 
         // Set up wind calculation and change
-        var wind = [-1,1][Math.round(Math.random())] * Math.round(Math.random()*5);
+        var wind = [-1,1][Math.round(Math.random())] * Math.round(Math.random()*15);
         this.game.physics.box2d.gravity.x = wind;
+        console.log('Starting wind speed is `'+wind+'`');
         this.game.time.events.loop(this.game.rnd.integerInRange(750, 5000), this.changeWind, this);
 
         // Set up gravity
@@ -130,10 +139,10 @@ Lander.prototype = {
         mask.lineTo(this.groundVertices[i-2],1000);
         submask.lineTo(this.groundVertices[i-2]+50,1000);
 
-        this.pattern = this.game.add.tileSprite(this.groundVertices[0], this.groundVertices[1], 5000, 1000, 'pattern');
+        this.pattern = this.game.add.tileSprite(this.groundVertices[0], this.groundVertices[1], 5500, 1000, 'pattern');
         this.pattern.mask = mask;
 
-        this.subpattern = this.game.add.tileSprite(this.groundVertices[0], this.groundVertices[1]+50, 5000, 1000, 'sub-pattern');
+        this.subpattern = this.game.add.tileSprite(this.groundVertices[0], this.groundVertices[1]+50, 5500, 1000, 'sub-pattern');
         this.subpattern.mask = submask;
 
         this.graphics = graphics;
@@ -149,7 +158,7 @@ Lander.prototype = {
         
         this.rainEmitter = this.game.add.emitter(this.game.world.centerX, -500, 0);
         this.rainEmitter.width = this.game.world.width;
-        this.rainEmitter.angle = wind;
+        this.rainEmitter.angle = -wind;
         this.rainEmitter.makeParticles('thrust-particle');
         this.rainEmitter.minParticleScale = 0.3;
         this.rainEmitter.maxParticleScale = 1.0;
@@ -157,7 +166,7 @@ Lander.prototype = {
         this.rainEmitter.setXSpeed(-5, 5);
         this.rainEmitter.minRotation = 0;
         this.rainEmitter.maxRotation = 0;
-        this.rainEmitter.start(false, 1600, 5, 0);
+        this.rainEmitter.start(false, 2400, 10, 0);
     },
     launch: function(id) {
         if (this.hasShip()) return;
@@ -233,41 +242,38 @@ Lander.prototype = {
         }, exp);
         if (destroy_gui) this.destroyGUI();
     },
-    isDeployable: function() {
-        if (Math.abs(this.ship.angle) > 40)
-            return false;
-
+    getShipMomentum: function() {
         var v = this.ship.body.velocity.y;
         var m = this.ship.body.mass;
-        var momentum = m*v;
-
-        if (momentum > 250)
-            return false;
-
-        return true;
+        var momentum = Math.abs(m*v);
+        return momentum;
+    },
+    getShipAngle: function() {
+        return Math.abs(this.ship.angle);
+    },
+    isDeployable: function() {
+        return !(this.getShipAngle() > 40 || this.getShipMomentum() > 200)
     },
     onDeployed: function(body1, body2, fixture1, fixture2, begin) {
         if (!this.hasShip()) return;
         if (body1 != this.ship.body) return;
 
-        if (Math.abs(this.ship.angle) > 40) {
-            console.log('Resource `' + this.ship.originalID + '` is destroyed because the angle was too high ('+Math.abs(this.ship.angle)+'>20).')
-            this.destroyObject(this.ship);
-            this.ship = null;
-            return;
-        }
-
-        var v = this.ship.body.velocity.y;
-        var m = this.ship.body.mass;
-        var momentum = m*v;
-
-        if (momentum > 250) {
-            console.log('Resource `' + this.ship.originalID + '` is destroyed because the impact speed was too high ('+ momentum +'>250).')
+        // Destroy if the angle is too high.
+        if (this.getShipAngle() > 40) {
+            console.log('Resource `' + this.ship.originalID + '` is destroyed because the angle was too high ('+this.getShipAngle()+'>40).')
             this.destroyObject(this.ship);
             this.ship = null;
             return;
         }
         
+        // Hack: recalculating is not working here.
+        if (this.shipGUIWarning.visible) {
+            console.log('Resource `' + this.ship.originalID + '` is destroyed because the impact speed was too high.')
+            this.destroyObject(this.ship);
+            this.ship = null;
+            return;
+        }
+
         // Alternate solution: if (this.ship.body.velocity.x == 0 && this.ship.body.velocity.y == 0) this.deployObject()
         if (this.ship.prevTouchSurface != null) {
             if (this.ship.prevTouchSurface.x.toFixed(2) == this.ship.body.x.toFixed(2) && this.ship.prevTouchSurface.y.toFixed(2) == this.ship.body.y.toFixed(2) && this.ship.prevTouchSurface.a.toFixed(1) == this.ship.body.angle.toFixed(1)) {

@@ -2,9 +2,18 @@
 
 var Game = function (game) {
     this.game = game;
+    this.techTreeIsGenerated = false;
 };
 
 Game.prototype.reset = function() {
+    // Max ammount of resource
+    this.MAXIMUM = {
+        w: 150,
+        o: 150,
+        f: 150,
+        e: 150
+    }
+
     // Available resources
     this.POPULATION = 1;
     this.OXYGEN = 90;
@@ -23,6 +32,15 @@ Game.prototype.reset = function() {
 Game.prototype.new = function () {
     // Reset the basic resources
     this.reset();
+
+    // Update the resource bars in the stat
+    if (!this.techTreeIsGenerated) {
+        this.game.stats.generateTechItems();
+        this.techTreeIsGenerated = true;
+    }
+    this.game.stats.initEvents();
+    this.game.stats.refreshTechItemsDetails();
+    this.game.stats.refreshTechItemsStatusAndPrice();
 
     // Set the timer to calculate resources
     this.timer = this.game.time.events.loop(1000, this.updateResources, this);
@@ -62,6 +80,12 @@ Game.prototype.deployResearch = function(id) {
 
     console.log('Deploy `' + id + '` research, `, gathering new resources.')
     this.researchControl.deploy(obj);
+    
+    // Deploy silos
+    if ('mF' in obj.base.resource) this.MAXIMUM.f += obj.base.resource.mF;
+    if ('mO' in obj.base.resource) this.MAXIMUM.o += obj.base.resource.mO;
+    if ('mE' in obj.base.resource) this.MAXIMUM.e += obj.base.resource.mE;
+    if ('mW' in obj.base.resource) this.MAXIMUM.w += obj.base.resource.mW;
 };
 
 Game.prototype.destroyResearch = function(id) {
@@ -81,7 +105,7 @@ Game.prototype.updateResources = function() {
     this.WATER -= this.POPULATION;
     this.FOOD -= this.POPULATION;
 
-    // Other resource consuption
+    // Other resource gathering
     this.MONEY += this.moneyAmount;
 
     // Add extras of finished researches
@@ -111,12 +135,18 @@ Game.prototype.updateResources = function() {
         // Make it launchable.
         if (r.paid == r.getPrice()) {
             console.log('Finished `' + r.base.id + '` research.');
-            document.getElementById(r.base.id).classList.remove('building');
-            document.getElementById(r.base.id).classList.add('launchable');
+            this.game.stats.changeTechItemLaunchable(r.base.id);
             r.finish();
         }
     }
 
+    // Apply maximum resource filter
+    this.OXYGEN = Math.min(this.OXYGEN, this.MAXIMUM.o);
+    this.WATER = Math.min(this.WATER, this.MAXIMUM.w);
+    this.FOOD = Math.min(this.FOOD, this.MAXIMUM.f);
+    this.ELECTRICITY = Math.min(this.ELECTRICITY, this.MAXIMUM.e);
+
+    // Update stat interface
     this.game.stats.update();
 
     // Detect game over
@@ -139,5 +169,11 @@ Game.prototype.resume = function () {
 };
 
 Game.prototype.leave = function () {
-    document.querySelector('.gameOver').classList.add('active');
+    this.game.stats.showGameOver();
 };
+
+Game.prototype.restart = function () {
+    this.game.stats.hideGameOver();
+    this.game.state.start('lander');
+};
+
