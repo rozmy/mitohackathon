@@ -39,21 +39,32 @@ html, body, div, p {
     right: 0;
     bottom: 0;
     width: 300px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     display: -webkit-flex;
     -webkit-flex-direction: column;
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
     z-index: 100;
 }
 
 .logo,
 .settings {
-    flex-grow: 1;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
 }
 
 .status,
 .viewSwitch {
-    flex-grow: 0;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+        -ms-flex-positive: 0;
+            flex-grow: 0;
 }
 
 .collectMoneyButton,
@@ -73,6 +84,7 @@ input, button {
 button {
     outline: none;
     cursor: pointer;
+    margin: 0;
 }
 
 .controlPanel,
@@ -105,19 +117,30 @@ button {
 
 .status p {
     padding: 0 20px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
     min-height: 24px;
     position: relative;
 }
 
 .status .icon {
-    transform: scale(.6);
+    -webkit-transform: scale(.6);
+        -ms-transform: scale(.6);
+            transform: scale(.6);
     margin-right: 5px;
 }
 
 .status .amount {
-    flex-grow: 1;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
     height: 7px;
     background: #373d37;
     border-radius: 4px;
@@ -142,11 +165,14 @@ button {
     position: absolute;
     top: -10px;
     left: 34px;
-    transform: translate(-50%);
+    -webkit-transform: translate(-50%);
+        -ms-transform: translate(-50%);
+            transform: translate(-50%);
     background: #373d37;
     border-radius: 6px;
     padding: 10px 15px;
     font-size: 14px;
+    -webkit-transition: top .2s, opacity .2s;
     transition: top .2s, opacity .2s;
 }
 
@@ -159,7 +185,10 @@ p.money:hover .tooltip {
 }
 
 p.money {
-    align-items: flex-end;
+    -webkit-box-align: end;
+    -webkit-align-items: flex-end;
+        -ms-flex-align: end;
+            align-items: flex-end;
 }
 
 .tooltip:after {
@@ -208,10 +237,18 @@ p.money {
 
 
 .settings {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     display: -webkit-flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: end;
+    -webkit-align-items: flex-end;
+        -ms-flex-align: end;
+            align-items: flex-end;
     padding-top: 20px;
     overflow: hidden;
 }
@@ -248,37 +285,69 @@ p.money {
     right: 0;
     border-right: 300px solid #fafae6;
     background: #fafae6;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
     -webkit-transform: translate3d(200%,0,0);
     transform: translate3d(200%,0,0);
+    -webkit-transition: -webkit-transform .5s;
+    transition: -webkit-transform .5s;
     transition: transform .5s;
+    transition: transform .5s, -webkit-transform .5s;
     z-index: 50;
 }
 
 .techTree .wrapper {
     overflow: auto;
-    flex: 1;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    order: 2;
+    -webkit-box-ordinal-group: 3;
+    -webkit-order: 2;
+        -ms-flex-order: 2;
+            order: 2;
 }
 
 .stick {
     background: #fafae6;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    order: 1;
+    -webkit-box-ordinal-group: 2;
+    -webkit-order: 1;
+        -ms-flex-order: 1;
+            order: 1;
 }
 
 .stick h2 {
-    flex: 1;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
 }
 
 .techTree.active {
-    transform: translate3d(0%,0,0);
+    -webkit-transform: translate3d(0%,0,0);
+            transform: translate3d(0%,0,0);
 }
 
 .category {
-    flex: 1;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
     padding: 0 1em 1em;
 }
 
@@ -382,6 +451,7 @@ th.disabled span {
     background: white;
     /* background-image: linear-gradient(to right, #000cff 50%, white 50%, white 53%, #000cff 53%, #000cff 54%, white 54%, white 55%, #000cff 55%, #000cff 55.5%, white 55.5%); */
     /* background-image: linear-gradient(135deg, #000cff 50%, white 0%); */
+    background-image: -webkit-linear-gradient(315deg, #000cff 50%, white 50%, white 51%, #000cff 51%, #000cff 52%, white 52%, white 53%, #000cff 53%, #000cff 54%, white 54%);
     background-image: linear-gradient(135deg, #000cff 50%, white 50%, white 51%, #000cff 51%, #000cff 52%, white 52%, white 53%, #000cff 53%, #000cff 54%, white 54%);
     background-size: 250% 150%;
     background-position: 95% 0%;
@@ -390,6 +460,7 @@ th.disabled span {
     border: 2px solid #000cff;
     font-size: 14px;
     font-weight: bold;
+    -webkit-transition: background-position .6s;
     transition: background-position .6s;
     border-bottom-width: 6px;
     position: relative;
@@ -425,16 +496,32 @@ th.disabled span {
     bottom: 0;
     left: 0;
     right: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
     background: #fafae6;
     z-index: 200;
     display: none;
 }
 
 .gameOver.active {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
 }
 
@@ -455,6 +542,7 @@ th.disabled span {
     box-shadow: inset 0 -10px 0 -5px white;
     line-height: 1;
     border-bottom: 3px solid white;
+    -webkit-transition: border .2s, box-shadow .2s;
     transition: border .2s, box-shadow .2s;
 }
 
