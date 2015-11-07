@@ -201,6 +201,7 @@ var READY_TO_BUILD = 1;
 var Research = function(base) {
     this.number = 0;
     this.priceRatio = 1.0;
+    this.disabled = false;
     this.status = READY_TO_BUILD;
     this.paid = 0;
     this.base = base;

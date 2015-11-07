@@ -73,6 +73,7 @@ Lander.prototype = {
         this.game.load.image('resource-F', '../assets/sprites/food-icon.png');
         this.game.load.image('resource-O', '../assets/sprites/oxygen-icon.png');
         this.game.load.image('resource-P', '../assets/sprites/power-icon.png');
+        this.game.load.image('no-power', '../assets/sprites/no-power.png');
         this.game.load.spritesheet('explosion', '../assets/sprites/explosion-200.png', 200, 200, 14);
     },
     changeWind: function() {
@@ -286,30 +287,47 @@ Lander.prototype = {
         }
         this.ship.prevTouchSurface = {a: this.ship.body.angle, x: this.ship.body.x, y: this.ship.body.y, ts: new Date()}
     },
+    showPowerWarnings: function() {
+        for (var i=0; i<this.facilities.length; i++) {
+            var research = this.game.Game.researchControl.getResearch(this.facilities[i].originalID),
+                disabled = research.disabled;
+            this.facilities[i].noPowerIcon.visible = disabled;
+            this.facilities[i].currentProduction.visible = !disabled;
+        }
+    },
     deployObject: function() {
+        // Make ship not movable object.
         this.ship.body.velocity.x = 0;
         this.ship.body.velocity.y = 0;
         this.ship.body.z = 1000;
         this.ship.body.fixedRotation = true;
         this.ship.body.static = true;
 
-        var iconEmitter = this.game.add.emitter(0, 0, 1),
-            iconType = this.ship.originalID[0];
+        // Show the gathering process with small flying icons.
+        this.ship.currentProduction = this.game.add.emitter(0, 0, 1);
+        this.ship.currentProduction.makeParticles('resource-'+this.ship.originalID[0]);
+        this.ship.currentProduction.x = this.ship.body.x;
+        this.ship.currentProduction.y = this.ship.body.y;
+        this.ship.currentProduction.gravity = -100;
+        this.ship.currentProduction.minRotation = 0;
+        this.ship.currentProduction.maxRotation = 0;
+        this.ship.currentProduction.start(false, 4000, 3);
 
-        iconEmitter.makeParticles('resource-'+iconType);
-        iconEmitter.x = this.ship.body.x;
-        iconEmitter.y = this.ship.body.y;
-        iconEmitter.gravity = -100;
-        iconEmitter.minRotation = 0;
-        iconEmitter.maxRotation = 0;
-        iconEmitter.start(false, 4000, 3);
-
-        this.ship.currentProduction = iconEmitter;
-
+        // Create a No-Power warning for the facility and disable it.
+        this.ship.noPowerIcon = this.game.add.sprite(this.ship.body.x, this.ship.body.y, 'no-power');
+        this.ship.noPowerIcon.anchor.x = 0.5;
+        this.ship.noPowerIcon.anchor.y = 2.25;
+        this.ship.noPowerIcon.alpha = 0.7;
+        this.ship.noPowerIcon.visible = false;
+        this.game.add.tween(this.ship.noPowerIcon).to({ alpha: 1.0 }, 2000, Phaser.Easing.Quadratic.InOut, true, 0, 1000, true);
+        
+        // Save the facility, deploy, and remove the GUI for landing.
         this.facilities.push(this.ship);
         this.game.Game.deployResearch(this.ship.originalID);
         this.ship = null;
         this.destroyGUI();
+
+        // Enable the free camera movement.
         this.game.camera.follow(null);
     },
     onDestroyBase: function(body1, body2, fixture1, fixture2, begin) {
@@ -336,6 +354,7 @@ Lander.prototype = {
         return (this.ship != null)
     },
     update: function () {
+        // Add camera movement when it's not following the landing unit.
         if (this.game.input.activePointer.isDown) {
             if (this.game.origDragPoint) {
                 this.game.camera.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;
@@ -346,6 +365,9 @@ Lander.prototype = {
         else {
             this.game.origDragPoint = null;
         }
+
+        // Show warnings for unpowered facilities.
+        this.showPowerWarnings();
 
         if (!this.hasShip())
             return;

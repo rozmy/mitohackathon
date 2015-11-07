@@ -99,6 +99,19 @@ Game.prototype.collect = function() {
     this.MONEY += this.moneyAmount;
 };
 
+Game.prototype.getEnergyConsuption = function() {
+    var energyConsuption = 0;
+    for (var i = 0; i<this.researchControl.researches.length; i++) {
+        var r = this.researchControl.researches[i],
+            rb = r.base.resource,
+            nb = r.number;
+        
+            if (nb==0) continue;
+            if ('e' in rb) energyConsuption += nb*rb.e;
+    }
+    return energyConsuption;
+};
+
 Game.prototype.updateResources = function() {
     // Basic resource consuption
     this.OXYGEN -= this.POPULATION;
@@ -108,17 +121,26 @@ Game.prototype.updateResources = function() {
     // Other resource gathering
     this.MONEY += this.moneyAmount;
 
+    // Calculate electricity.
+    var energyConsuption = this.getEnergyConsuption();
+    this.ELECTRICITY += energyConsuption;
+    this.ELECTRICITY = Math.min(this.ELECTRICITY, this.MAXIMUM.e);
+    this.ELECTRICITY = Math.max(0, this.ELECTRICITY);
+
     // Add extras of finished researches
     for (var i = 0; i<this.researchControl.researches.length; i++) {
         var r = this.researchControl.researches[i],
             rb = r.base.resource,
             nb = r.number;
 
+        r.disabled = ('e' in rb && this.ELECTRICITY == 0 && energyConsuption < 0);
+
         if (nb==0) continue;
+        if (r.disabled) continue;
+
         if ('o' in rb) { this.OXYGEN += nb*rb.o }
         if ('w' in rb) { this.WATER += nb*rb.w }
         if ('f' in rb) { this.FOOD += nb*rb.f }
-        if ('e' in rb) { this.ELECTRICITY += nb*rb.e }
     }
 
     // Pay incompleted researches
@@ -144,7 +166,6 @@ Game.prototype.updateResources = function() {
     this.OXYGEN = Math.min(this.OXYGEN, this.MAXIMUM.o);
     this.WATER = Math.min(this.WATER, this.MAXIMUM.w);
     this.FOOD = Math.min(this.FOOD, this.MAXIMUM.f);
-    this.ELECTRICITY = Math.min(this.ELECTRICITY, this.MAXIMUM.e);
 
     // Update stat interface
     this.game.stats.update();
